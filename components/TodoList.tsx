@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import palette from '../styles/palette';
 import { TodoType } from '../types/todo';
@@ -197,10 +197,9 @@ const TodoList: React.FC<IProps> = ({ todos }) => {
                       checkTodo(todo.id);
                     }}
                   />
-                  <button type="button" className="todo-button" onClick={() => checkTodo(todo.id)} />
                 </>
               )}
-              {!todo.checked && <button type="button" className="todo-button" onClick={() => {}} />}
+              {!todo.checked && <button type="button" className="todo-button" onClick={() => checkTodo(todo.id)} />}
             </div>
           </li>
         ))}
