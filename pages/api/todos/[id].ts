@@ -21,6 +21,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.send(error);
     }
   }
+  if (req.method === 'DELETE') {
+    try {
+      const todoId = Number(req.query.id);
+      const todo = Data.todo.exist({ id: todoId });
+      if (!todo) {
+        res.statusCode = 404;
+        res.end();
+      }
+      const todos = Data.todo.getList();
+      const filteredTodos = todos.filter((todo) => todo.id !== todoId);
+      Data.todo.write(filteredTodos);
+      res.statusCode = 200;
+      res.end();
+    } catch (error) {
+      console.log(error);
+      res.statusCode = 500;
+      res.send(error);
+    }
+  }
   res.statusCode = 405;
   return res.end();
 };
