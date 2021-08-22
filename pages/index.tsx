@@ -1,25 +1,24 @@
 import React from 'react';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import TodoList from '../components/TodoList';
-import { TodoType } from '../types/todo';
 import { getTodosAPI } from '../lib/api/todo';
+import { wrapper } from '../store';
+import { todoActions } from '../store/todo';
 
-interface IProps {
-  todos: TodoType[];
-}
-
-const app: NextPage<IProps> = ({ todos }) => {
-  return <TodoList todos={todos} />;
+const app: NextPage = () => {
+  return <TodoList />;
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
+  console.log(store);
   try {
     const { data } = await getTodosAPI();
-    return { props: { todos: data } };
+    store.dispatch(todoActions.setTodo(data));
+    return { props: {} };
   } catch (error) {
     console.log(error);
-    return { props: { todos: [] } };
+    return { props: {} };
   }
-};
+});
 
 export default app;
