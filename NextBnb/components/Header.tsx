@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import AirbnbLogoIcon from '../public/static/svg/logo/logo.svg';
 import AirbnbLogoTextIcon from '../public/static/svg/logo/logo_text.svg';
 import Link from 'next/link';
 import palette from '../styles/palette';
+import ModalPortal from './ModalPortal';
+import SignUpModal from './auth/SignUpModal';
 
 const Container = styled.div`
   position: sticky;
@@ -54,9 +56,34 @@ const Container = styled.div`
       }
     }
   }
+
+  .modal-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    .modal-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      z-index: 10;
+    }
+    .modal-contents {
+      width: 400px;
+      height: 400px;
+      background-color: white;
+      z-index: 11;
+    }
+  }
 `;
 
 const Header: React.FC = () => {
+  const [modalOpend, setModalOpend] = useState<boolean>(false);
   return (
     <Container>
       <Link href="/">
@@ -66,13 +93,18 @@ const Header: React.FC = () => {
         </a>
       </Link>
       <div className="header-auth-buttons">
-        <button type="button" className="header-sign-up-button">
+        <button type="button" className="header-sign-up-button" onClick={() => setModalOpend(true)}>
           회원가입
         </button>
-        <button type="button" className="header-login-button">
+        <button type="button" className="header-login-button" onClick={() => setModalOpend(true)}>
           로그인
         </button>
       </div>
+      {modalOpend && (
+        <ModalPortal closePortal={() => setModalOpend(false)}>
+          <SignUpModal />
+        </ModalPortal>
+      )}
     </Container>
   );
 };
