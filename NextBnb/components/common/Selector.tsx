@@ -1,5 +1,3 @@
-/* eslint */
-
 import React from 'react';
 import styled from 'styled-components';
 import palette from '../../styles/palette';
@@ -30,15 +28,16 @@ const Container = styled.div`
 
 interface IProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options?: string[];
+  disabledOptions?: string[];
   value?: string;
 }
 
-const Selector: React.FC<IProps> = ({ options = [], ...props }) => {
+const Selector: React.FC<IProps> = ({ options = [], disabledOptions = [], ...props }) => {
   return (
     <Container>
       <select {...props}>
-        {options.map((option, index) => (
-          <option key={index} value={option}>
+        {disabledOptions.map((option, index) => (
+          <option key={index} value={option} disabled>
             {option}
           </option>
         ))}
