@@ -41,6 +41,11 @@ const Selector: React.FC<IProps> = ({ options = [], disabledOptions = [], ...pro
             {option}
           </option>
         ))}
+        {options.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
     </Container>
   );

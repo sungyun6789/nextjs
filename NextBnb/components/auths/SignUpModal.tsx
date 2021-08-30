@@ -11,9 +11,9 @@ import { monthList, dayList, yearList } from '../../lib/staticData';
 import Selector from '../common/Selector';
 import Button from '../common/Button';
 
-const Container = styled.div`
+const Container = styled.form`
   width: 568px;
-  height: 614px;
+  padding: 32px;
   background-color: white;
   z-index: 11;
 
@@ -178,7 +178,7 @@ const SignUpModal: React.FC = () => {
           <Selector options={dayList} disabledOptions={['일']} defaultValue="일" onChange={onChangeBirthDay} />
         </div>
         <div className="sign-up-modal-birthday-year-selector">
-          <Selector options={dayList} disabledOptions={['년']} defaultValue="년" onChange={onChangeBirthYear} />
+          <Selector options={yearList} disabledOptions={['년']} defaultValue="년" onChange={onChangeBirthYear} />
         </div>
       </div>
       <div className="sign-up-modal-submit-button-wrapper">
