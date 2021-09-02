@@ -62,6 +62,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         Date.now() + 60 * 60 * 24 * 1000 * 3, //3일
       )}; httponly`,
     );
+
+    const newUserWithPassword: Partial<Pick<StoredUserType, 'password'>> = newUser;
+
+    delete newUserWithPassword.password; // 비밀번호는 보안상 전달하지 않음
+    res.statusCode = 200;
+    return res.send(newUser);
   }
 
   res.statusCode = 405;
