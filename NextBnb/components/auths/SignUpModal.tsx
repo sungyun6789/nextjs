@@ -11,6 +11,8 @@ import { monthList, dayList, yearList } from '../../lib/staticData';
 import Selector from '../common/Selector';
 import Button from '../common/Button';
 import { signupAPI } from '../../pages/api/auth';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../store/user';
 
 const Container = styled.form`
   width: 568px;
@@ -97,6 +99,8 @@ const SignUpModal: React.FC = () => {
   const [birthDay, setBirthDay] = useState<string | undefined>();
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
 
+  const dispatch = useDispatch();
+
   // 이메일 주소 변경 시
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -125,13 +129,16 @@ const SignUpModal: React.FC = () => {
   };
 
   // 생년월일 월 변경 시
-  const onChangeBirthMonth = (event: React.ChangeEvent<HTMLSelectElement>) => setBirthMonth(event.target.value);
+  const onChangeBirthMonth = (event: React.ChangeEvent<HTMLSelectElement>) =>
+    setBirthMonth(event.target.value);
 
   // 생년월일 일 변경 시
-  const onChangeBirthDay = (event: React.ChangeEvent<HTMLSelectElement>) => setBirthDay(event.target.value);
+  const onChangeBirthDay = (event: React.ChangeEvent<HTMLSelectElement>) =>
+    setBirthDay(event.target.value);
 
   // 생년월일 년 변경 시
-  const onChangeBirthYear = (event: React.ChangeEvent<HTMLSelectElement>) => setBirthYear(event.target.value);
+  const onChangeBirthYear = (event: React.ChangeEvent<HTMLSelectElement>) =>
+    setBirthYear(event.target.value);
 
   // 회원가입 폼 제출하기
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -143,9 +150,12 @@ const SignUpModal: React.FC = () => {
         lastname,
         firstname,
         password,
-        birthday: new Date(`${birthYear}-${birthMonth!.replace('월', '')}-${birthDay}`).toISOString(),
+        birthday: new Date(
+          `${birthYear}-${birthMonth!.replace('월', '')}-${birthDay}`,
+        ).toISOString(),
       };
-      await signupAPI(signUpBody);
+      const { data } = await signupAPI(signUpBody);
+      dispatch(userActions.setLoggedUser(data));
     } catch (error) {
       console.log(error);
     }
@@ -165,10 +175,20 @@ const SignUpModal: React.FC = () => {
         />
       </div>
       <div className="input-wrapper">
-        <Input placeholder="이름(예:길동)" icon={<PersonIcon />} value={lastname} onChange={onChangeLastname} />
+        <Input
+          placeholder="이름(예:길동)"
+          icon={<PersonIcon />}
+          value={lastname}
+          onChange={onChangeLastname}
+        />
       </div>
       <div className="input-wrapper">
-        <Input placeholder="성(예:홍)" icon={<PersonIcon />} value={firstname} onChange={onChangeFirstname} />
+        <Input
+          placeholder="성(예:홍)"
+          icon={<PersonIcon />}
+          value={firstname}
+          onChange={onChangeFirstname}
+        />
       </div>
       <div className="input-wrapper sign-up-password-input-wrapper">
         <Input
@@ -187,17 +207,33 @@ const SignUpModal: React.FC = () => {
       </div>
       <p className="sign-up-birthdat-label">생일</p>
       <p className="sign-up-modal-birthday-info">
-        만 18세 이상의 성인만 회원으로 가입할 수 있습니다. 생일은 다른 에어비앤비 이용자에게 공개되지 않습니다.
+        만 18세 이상의 성인만 회원으로 가입할 수 있습니다. 생일은 다른 에어비앤비 이용자에게
+        공개되지 않습니다.
       </p>
       <div className="sign-up-modal-birthday-selectors">
         <div className="sign-up-modal-birthday-month-selector">
-          <Selector options={monthList} disabledOptions={['월']} defaultValue="월" onChange={onChangeBirthMonth} />
+          <Selector
+            options={monthList}
+            disabledOptions={['월']}
+            defaultValue="월"
+            onChange={onChangeBirthMonth}
+          />
         </div>
         <div className="sign-up-modal-birthday-day-selector">
-          <Selector options={dayList} disabledOptions={['일']} defaultValue="일" onChange={onChangeBirthDay} />
+          <Selector
+            options={dayList}
+            disabledOptions={['일']}
+            defaultValue="일"
+            onChange={onChangeBirthDay}
+          />
         </div>
         <div className="sign-up-modal-birthday-year-selector">
-          <Selector options={yearList} disabledOptions={['년']} defaultValue="년" onChange={onChangeBirthYear} />
+          <Selector
+            options={yearList}
+            disabledOptions={['년']}
+            defaultValue="년"
+            onChange={onChangeBirthYear}
+          />
         </div>
       </div>
       <div className="sign-up-modal-submit-button-wrapper">
