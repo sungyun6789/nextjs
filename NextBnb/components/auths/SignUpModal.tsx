@@ -13,6 +13,8 @@ import Button from '../common/Button';
 import { signupAPI } from '../../pages/api/auth';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/user';
+import { commonActions } from '../../store/common';
+import useValidateMode from '../../hooks/useValidateMode';
 
 const Container = styled.form`
   width: 568px;
@@ -99,7 +101,7 @@ const SignUpModal: React.FC = () => {
   const [birthDay, setBirthDay] = useState<string | undefined>();
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
 
-  const [validateMode, setValidateMode] = useState<boolean>(false);
+  const { setValidateMode } = useValidateMode();
 
   const dispatch = useDispatch();
 
@@ -148,6 +150,8 @@ const SignUpModal: React.FC = () => {
 
     setValidateMode(true);
 
+    dispatch(commonActions.setValidateMode(true));
+
     if (!email || !lastname || !!firstname || !password) {
       return undefined;
     }
@@ -180,7 +184,6 @@ const SignUpModal: React.FC = () => {
           name="email"
           value={email}
           onChange={onChangeEmail}
-          validateMode={validateMode}
           useValidation
           isValid={!!email}
           errorMessage="이메일이 필요합니다."
@@ -192,7 +195,6 @@ const SignUpModal: React.FC = () => {
           icon={<PersonIcon />}
           value={lastname}
           onChange={onChangeLastname}
-          validateMode={validateMode}
           useValidation
           isValid={!!lastname}
           errorMessage="이름을 입력하세요."
@@ -204,7 +206,6 @@ const SignUpModal: React.FC = () => {
           icon={<PersonIcon />}
           value={firstname}
           onChange={onChangeFirstname}
-          validateMode={validateMode}
           useValidation
           isValid={!!firstname}
           errorMessage="성을 입력하세요."
@@ -223,7 +224,6 @@ const SignUpModal: React.FC = () => {
           }
           value={password}
           onChange={onChangePassword}
-          validateMode={validateMode}
           useValidation
           isValid={!!password}
           errorMessage="비밀번호를 입력하세요."
