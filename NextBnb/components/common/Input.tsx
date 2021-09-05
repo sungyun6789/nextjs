@@ -20,11 +20,11 @@ const Container = styled.div<InputContainerProps>`
     border-radius: 4px;
     font-size: 16px;
     outline: none;
-    ::placeholder {
+    & ::placeholder {
       color: ${palette.gray_76};
     }
-    &:focus {
-      border-color: ${palette.dark_cyan} !important;
+    & :focus {
+      border-color: ${palette.dark_cyan};
     }
   }
   svg {

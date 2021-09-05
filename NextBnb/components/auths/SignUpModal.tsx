@@ -3,20 +3,19 @@ import styled from 'styled-components';
 import CloseXIcon from '../../public/static/svg/modal/modal_colose_x_icon.svg';
 import MailIcon from '../../public/static/svg/auth/mail.svg';
 import PersonIcon from '../../public/static/svg/auth/person.svg';
-import OpendEyeIcon from '../../public/static/svg/auth/opened_eye.svg';
+import OpenedEyeIcon from '../../public/static/svg/auth/opened_eye.svg';
 import ClosedEyeIcon from '../../public/static/svg/auth/closed_eye.svg';
 import palette from '../../styles/palette';
 import Input from '../common/Input';
 import { monthList, dayList, yearList } from '../../lib/staticData';
 import Selector from '../common/Selector';
-import Button from '../common/Button';
 import { signupAPI } from '../../pages/api/auth';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/user';
-import { commonActions } from '../../store/common';
 import useValidateMode from '../../hooks/useValidateMode';
 import PasswordWarning from './PasswordWarning';
 import { authActions } from '../../store/auth';
+import Button from '../common/Button';
 
 const Container = styled.form`
   width: 568px;
@@ -24,7 +23,7 @@ const Container = styled.form`
   background-color: white;
   z-index: 11;
 
-  .modal-close-x-icon {
+  .mordal-close-x-icon {
     cursor: pointer;
     display: block;
     margin: 0 0 40px auto;
@@ -33,19 +32,6 @@ const Container = styled.form`
   .input-wrapper {
     position: relative;
     margin-bottom: 16px;
-    input {
-      position: relative;
-      width: 100%;
-      height: 46px;
-      padding: 0 44px 0 11px;
-      border: 1px solid ${palette.gray_eb};
-      border-radius: 4px;
-      font-size: 16px;
-      outline: none;
-      ::placeholder {
-        color: ${palette.gray_76};
-      }
-    }
     svg {
       position: absolute;
       right: 11px;
@@ -242,7 +228,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
 
   return (
     <Container onSubmit={onSubmitSignUp}>
-      <CloseXIcon className="modal-close-x-icon" onClick={closeModal} />
+      <CloseXIcon className="mordal-close-x-icon" onClick={closeModal} />
       <div className="input-wrapper">
         <Input
           placeholder="이메일 주소"
@@ -269,7 +255,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
       </div>
       <div className="input-wrapper">
         <Input
-          placeholder="성(예:홍)"
+          placeholder="성(예: 홍)"
           icon={<PersonIcon />}
           value={firstname}
           onChange={onChangeFirstname}
@@ -286,7 +272,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
             hidePassword ? (
               <ClosedEyeIcon onClick={toggleHidePassword} />
             ) : (
-              <OpendEyeIcon onClick={toggleHidePassword} />
+              <OpenedEyeIcon onClick={toggleHidePassword} />
             )
           }
           value={password}
@@ -314,12 +300,14 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
         만 18세 이상의 성인만 회원으로 가입할 수 있습니다. 생일은 다른 에어비앤비 이용자에게
         공개되지 않습니다.
       </p>
+
       <div className="sign-up-modal-birthday-selectors">
         <div className="sign-up-modal-birthday-month-selector">
           <Selector
             options={monthList}
             disabledOptions={['월']}
             defaultValue="월"
+            value={birthMonth}
             onChange={onChangeBirthMonth}
             isValid={!!birthMonth}
           />
@@ -329,6 +317,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
             options={dayList}
             disabledOptions={['일']}
             defaultValue="일"
+            value={birthDay}
             onChange={onChangeBirthDay}
             isValid={!!birthDay}
           />
@@ -338,13 +327,14 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
             options={yearList}
             disabledOptions={['년']}
             defaultValue="년"
+            value={birthYear}
             onChange={onChangeBirthYear}
             isValid={!!birthYear}
           />
         </div>
       </div>
       <div className="sign-up-modal-submit-button-wrapper">
-        <Button type="submit">가입하기</Button>
+        <Button type="submit">가입 하기</Button>
       </div>
       <p>
         이미 에어비앤비 계정이 있나요?

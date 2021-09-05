@@ -12,6 +12,7 @@ const Container = styled.div<{ isValid: boolean; validateMode: boolean }>`
     height: 100%;
     background-color: white;
     border: 1px solid ${palette.gray_eb};
+    font-size: 16px;
     padding: 0 11px;
     border-radius: 4px;
     outline: none;
@@ -19,12 +20,11 @@ const Container = styled.div<{ isValid: boolean; validateMode: boolean }>`
     background-image: url('/static/svg/common/selector/selector_down_arrow.svg');
     background-position: right 11px center;
     background-repeat: no-repeat;
-    font-size: 16px;
-
     &:focus {
       border-color: ${palette.dark_cyan};
     }
   }
+
   ${({ isValid, validateMode }) =>
     validateMode &&
     css`

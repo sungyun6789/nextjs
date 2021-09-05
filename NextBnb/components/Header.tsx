@@ -4,12 +4,12 @@ import AirbnbLogoIcon from '../public/static/svg/logo/logo.svg';
 import AirbnbLogoTextIcon from '../public/static/svg/logo/logo_text.svg';
 import Link from 'next/link';
 import palette from '../styles/palette';
-import SignUpModal from './auths/SignUpModal';
 import useModal from '../hooks/useModal';
 import { useSelector } from '../store';
 import HamburgerIcon from '../public/static/svg/header/hamburger.svg';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store/auth';
+import AuthModal from './auths/AuthModal';
 
 const Container = styled.div`
   position: sticky;
@@ -42,6 +42,7 @@ const Container = styled.div`
       background-color: white;
       cursor: pointer;
       outline: none;
+      font-weight: 600;
       &:hover {
         background-color: ${palette.gray_f7};
       }
@@ -55,33 +56,10 @@ const Container = styled.div`
       background-color: white;
       cursor: pointer;
       outline: none;
+      font-weight: 600;
       &:hover {
         box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
       }
-    }
-  }
-
-  .modal-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    .modal-background {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.75);
-      z-index: 10;
-    }
-    .modal-contents {
-      width: 400px;
-      height: 400px;
-      background-color: white;
-      z-index: 11;
     }
   }
 
@@ -152,7 +130,7 @@ const Header: React.FC = () => {
         </button>
       )}
       <ModalPortal>
-        <SignUpModal closeModal={closeModal} />
+        <AuthModal closeModal={closeModal} />
       </ModalPortal>
     </Container>
   );
