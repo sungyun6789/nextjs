@@ -9,6 +9,7 @@ import Button from '../common/Button';
 import Input from '../common/Input';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../store/auth';
+import { loginAPI } from '../../lib/api/auth';
 
 const Container = styled.form`
   width: 568px;
@@ -78,8 +79,24 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
     dispatch(authActions.setAuthMode('login'));
   };
 
+  // 로그인 클릭 시
+  const onSubmitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!email || !password) {
+      alert('이메일과 비밀번호를 입력해주세요.');
+    } else {
+      const loginBody = { email, password };
+      try {
+        const { data } = await loginAPI(loginBody);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
-    <Container>
+    <Container onSubmit={onSubmitLogin}>
       <CloseXIcon className="mordal-close-x-icon" onClick={closeModal} />
       <div className="login-input-wrapper">
         <Input
