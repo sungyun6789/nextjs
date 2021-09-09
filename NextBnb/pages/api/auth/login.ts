@@ -29,12 +29,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // 일치할 경우 token 전달
       const token = jwt.sign(String(user.id), process.env.JWT_SECRET!);
       const Expires = new Date(Date.now() + 60 * 60 * 24 * 1000 * 3).toUTCString();
-      res.setHeader('Set-Cookie', `access_token=${token}; Path=/; Expires=${Expires}; Httponly`);
+      res.setHeader('Set-Cookie', `access_token=${token}; Expires=${Expires}; Httponly; Path=/;`);
 
       const userWithoutPassword: Partial<Pick<StoredUserType, 'password'>> = user;
 
-      // 보안을 위해 password는 제거하고 전달
-      delete userWithoutPassword.password;
+      delete userWithoutPassword.password; // 보안을 위해 password는 제거하고 전달
       res.statusCode = 200;
       return res.send(user);
     } catch (error) {
