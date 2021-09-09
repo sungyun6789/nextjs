@@ -48,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       lastname,
       password: hashedPassword,
       birthday,
-      profileImage: '/public/static/image/user/default_user_profile_image.jpg',
+      profileImage: '/static/image/user/default_user_profile_image.jpg',
     };
 
     Data.user.write([...users, newUser]);
@@ -56,12 +56,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // access_token 이라는 쿠키명에 토큰을 저장하며 path는 '/', expires로 지금 시간에 3일을 더해 만료일을 정하고 httponly를 사용하여
     // api통신에서만 쿠키 값을 불러올 수 있고, http 이외의 접근은 불가능하도록 하였습니다.
     const token = jwt.sign(String(newUser.id), process.env.JWT_SECRET!);
-    res.setHeader(
-      'Set-Cookie',
-      `access_token=${token}; path=/; expires=${new Date(
-        Date.now() + 60 * 60 * 24 * 1000 * 3, //3일
-      )}; httponly`,
-    );
+    const Expires = new Date(Date.now() + 60 * 60 * 24 * 1000 * 3).toUTCString();
+    res.setHeader('Set-Cookie', `access_token=${token}; Path=/; Expires=${Expires}; Httponly`);
 
     const newUserWithPassword: Partial<Pick<StoredUserType, 'password'>> = newUser;
 

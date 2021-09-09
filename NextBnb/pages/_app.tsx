@@ -17,11 +17,11 @@ const app = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default wrapper.withRedux(app);
-
 app.getInitialProps = async (context: AppContext) => {
   const appInitialProps = await App.getInitialProps(context);
   const cookieObject = cookieStringToObject(context.ctx.req?.headers.cookie);
   console.log(cookieObject);
   return { ...appInitialProps };
 };
+
+export default wrapper.withRedux(app);

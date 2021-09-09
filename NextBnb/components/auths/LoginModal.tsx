@@ -84,10 +84,6 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
   const changeToSignUpModal = () => {
     dispatch(authActions.setAuthMode('signup'));
   };
-  // 로그인 모달로 변경하기
-  const changeToLoginModal = () => {
-    dispatch(authActions.setAuthMode('login'));
-  };
 
   // 로그인 클릭 시
   const onSubmitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -141,7 +137,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
         />
       </div>
       <div className="login-modal-submit-button-wrapper">
-        <Button type="submit" role="presentation" onClick={changeToLoginModal}>
+        <Button type="submit" role="presentation">
           로그인
         </Button>
       </div>

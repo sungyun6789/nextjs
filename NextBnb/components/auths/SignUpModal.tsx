@@ -145,23 +145,21 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
   const onChangeBirthYear = (event: React.ChangeEvent<HTMLSelectElement>) =>
     setBirthYear(event.target.value);
 
-  // 회원가입 폼 입력 값 확인하기
   const validateSignUpForm = () => {
-    // 인풋 값이 없다면
+    //* 인풋 값이 없다면
     if (!email || !lastname || !firstname || !password) {
       return false;
     }
-    // 비밀번호가 올바르지 않다면
+    //* 비밀번호가 올바르지 않다면
     if (isPasswordHasNameOrEmail || !isPasswordOverMinLength || isPasswordHasNumberOrSymbol) {
       return false;
     }
-    // 생년월일 셀렉터 값이 없다면
+    //* 생년월일 셀렉터 값이 없다면
     if (!birthDay || !birthMonth || !birthYear) {
       return false;
     }
     return true;
   };
-
   useEffect(() => {
     return () => {
       setValidateMode(false);
@@ -173,7 +171,6 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     event.preventDefault();
 
     setValidateMode(true);
-    console.log(validateSignUpForm());
 
     if (validateSignUpForm()) {
       try {
@@ -189,7 +186,6 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
         const { data } = await signupAPI(signUpBody);
         dispatch(userActions.setLoggedUser(data));
         closeModal();
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -211,10 +207,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     [password, lastname, email],
   );
   // 비밀번호가 최소 자릿수 이상인지
-  const isPasswordOverMinLength = useMemo(
-    () => !!password && password.length >= PASSWORD_MIN_LENGTH,
-    [password],
-  );
+  const isPasswordOverMinLength = useMemo(() => password.length >= PASSWORD_MIN_LENGTH, [password]);
   // 비밀번호가 숫자나 특수기호를 포함하는지
   const isPasswordHasNumberOrSymbol = useMemo(
     () => !(/[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"]/g.test(password) || /[0-9]/g.test(password)),
@@ -279,7 +272,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
           onChange={onChangePassword}
           useValidation
           isValid={
-            !isPasswordHasNameOrEmail && !isPasswordOverMinLength && !isPasswordHasNumberOrSymbol
+            !isPasswordHasNameOrEmail && isPasswordOverMinLength && !isPasswordHasNumberOrSymbol
           }
           errorMessage="비밀번호를 입력하세요."
           onFocus={onFocusPassword}
