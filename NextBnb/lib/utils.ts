@@ -2,8 +2,8 @@
 export const cookieStringToObject = (cookieString: string | undefined) => {
   const cookies: { [key: string]: string } = {};
   if (cookieString) {
-    // "token-value"
-    const itemString = cookieString?.split(/\s*>;\s*/);
+    // "token=value"
+    const itemString = cookieString?.split(/\s*;\s*/);
     itemString.forEach((pairs) => {
       // ["token", "value"]
       const pair = pairs.split(/\s*=\s*/);

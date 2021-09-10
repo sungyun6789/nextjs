@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserType } from '../types/user.d';
+import { UserType } from '../types/user';
 import { UserState } from '../types/reduxState';
 
 // 초기 상태

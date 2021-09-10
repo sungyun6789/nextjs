@@ -7,5 +7,14 @@
     "password": "$2a$08$8TtjSVtTwUmRTMJgM9JnpOaXSaHhckTUEkcP4GilghAfbtIJTyOY6",
     "birthday": "1984-12-31T15:00:00.000Z",
     "profileImage": "/static/image/user/default_user_profile_image.jpg"
+  },
+  {
+    "id": 2,
+    "email": "admin@admin.com",
+    "firstname": "admin",
+    "lastname": "admin",
+    "password": "$2a$08$BmafN5UVnnbxk.xb48DpIuDo9ekmdEP3xsti4Nc/U47DRhwk1izzO",
+    "birthday": "1987-01-01T15:00:00.000Z",
+    "profileImage": "/static/image/user/default_user_profile_image.jpg"
   }
 ]

@@ -57,7 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // api통신에서만 쿠키 값을 불러올 수 있고, http 이외의 접근은 불가능하도록 하였습니다.
     const token = jwt.sign(String(newUser.id), process.env.JWT_SECRET!);
     const Expires = new Date(Date.now() + 60 * 60 * 24 * 1000 * 3).toUTCString();
-    res.setHeader('Set-Cookie', `access_token=${token}; Expires=${Expires}; Httponly; Path=/;`);
+    res.setHeader('Set-Cookie', `access_token=${token}; Expires=${Expires}; HttpOnly; Path=/;`);
 
     const newUserWithPassword: Partial<Pick<StoredUserType, 'password'>> = newUser;
 

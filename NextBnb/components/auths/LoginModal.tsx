@@ -90,16 +90,15 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
     event.preventDefault();
     setValidateMode(true);
     if (!email || !password) {
-      alert('이메일과 비밀번호를 입력해주세요.');
+      alert('이메일과 비밀번호를 입력해 주세요.');
     } else {
       const loginBody = { email, password };
       try {
         const { data } = await loginAPI(loginBody);
         dispatch(userActions.setLoggedUser(data));
         closeModal();
-        console.log(data);
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
       }
     }
   };

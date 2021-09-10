@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // 일치할 경우 token 전달
       const token = jwt.sign(String(user.id), process.env.JWT_SECRET!);
       const Expires = new Date(Date.now() + 60 * 60 * 24 * 1000 * 3).toUTCString();
-      res.setHeader('Set-Cookie', `access_token=${token}; Expires=${Expires}; Httponly; Path=/;`);
+      res.setHeader('Set-Cookie', `access_token=${token}; Expires=${Expires}; HttpOnly; Path=/;`);
 
       const userWithoutPassword: Partial<Pick<StoredUserType, 'password'>> = user;
 
