@@ -1,5 +1,5 @@
 // 사용자 인증에 관련된 api를 모아놓은 파일
-import axios from 'axios';
+import axios from '.';
 import { UserType } from './../../types/user.d';
 
 //* 회원가입 body
@@ -18,4 +18,4 @@ export const loginAPI = (body: { email: string; password: string }) =>
   axios.post<UserType>('/api/auth/login', body);
 
 // 쿠키의 access_token의 유저 정보를 받아오는 api
-export const meAPI = () => axios.get<UserType>('/api/auth/me');
+export const meAPI = () => axios.get('/api/auth/me');

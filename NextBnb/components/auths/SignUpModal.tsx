@@ -9,7 +9,7 @@ import palette from '../../styles/palette';
 import Input from '../common/Input';
 import { monthList, dayList, yearList } from '../../lib/staticData';
 import Selector from '../common/Selector';
-import { signupAPI } from '../../pages/api/auth';
+import { signupAPI } from '../../lib/api/auth';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/user';
 import useValidateMode from '../../hooks/useValidateMode';

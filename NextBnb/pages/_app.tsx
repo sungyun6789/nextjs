@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 import { wrapper } from '../store';
 import { cookieStringToObject } from '../lib/utils';
-import axios from './api';
+import axios from '../lib/api';
 import { meAPI } from '../lib/api/auth';
 import { userActions } from '../store/user';
 
@@ -33,7 +33,7 @@ app.getInitialProps = async (context: AppContext) => {
       store.dispatch(userActions.setLoggedUser(data));
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return { ...appInitialProps };
 };

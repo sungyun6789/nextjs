@@ -1,9 +1,8 @@
-import jwt from 'jsonwebtoken';
 import { NextApiResponse, NextApiRequest } from 'next';
+import jwt from 'jsonwebtoken';
 import Data from '../../../lib/data';
 import { StoredUserType } from '../../../types/user';
 
-// API를 요청하여 쿠키가 잘 전달되었는지 확인
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
@@ -17,16 +16,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const user = Data.user.find({ id: Number(userId) });
       if (!user) {
         res.statusCode = 404;
-        return res.send('해당 유저가 없습니다.');
+        return res.send('해당유저가 없습니다.');
       }
+
       const userWithoutPassword: Partial<Pick<StoredUserType, 'password'>> = user;
 
       delete userWithoutPassword.password;
       res.statusCode = 200;
       return res.send(userWithoutPassword);
-    } catch (error) {
+    } catch (e) {
+      console.log(e);
       res.statusCode = 500;
-      return res.send(error);
+      return res.send(e);
     }
   }
   res.statusCode = 405;
