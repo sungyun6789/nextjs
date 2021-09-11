@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { authActions } from '../store/auth';
 import AuthModal from './auths/AuthModal';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { logoutAPI } from '../lib/api/auth';
+import { userActions } from '../store/user';
 
 const Container = styled.div`
   position: sticky;
@@ -119,6 +121,16 @@ const Header: React.FC = () => {
   // 유저 메뉴 열고, 닫힘 메뉴
   const [isUsermenuOpend, setIsUsermenuOpend] = useState(false);
 
+  // 로그아웃 하기
+  const logout = async () => {
+    try {
+      await logoutAPI();
+      dispatch(userActions.initUser());
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <Container>
       <Link href="/">
@@ -170,13 +182,9 @@ const Header: React.FC = () => {
           {isUsermenuOpend && (
             <ul className="header-usermenu">
               <li>숙소 관리</li>
-              <Link href="/room/register/building">
-                <a role="presentation" onClick={() => setIsUsermenuOpend(false)}>
-                  <li>숙소 등록하기</li>
-                </a>
-              </Link>
+              <li>숙소 등록하기</li>
               <div className="header-usermenu-divider" />
-              <li role="presentation" onClick={() => {}}>
+              <li role="presentation" onClick={logout}>
                 로그아웃
               </li>
             </ul>
