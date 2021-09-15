@@ -31,15 +31,16 @@ const Container = styled.div<{ isValid: boolean; validateMode: boolean }>`
     }
   }
 
-  input [type='radio'] {
+  input[type='radio'] {
     width: 16px;
     height: 16px;
     margin: 0;
     position: relative;
+    margin: 0;
     margin-right: 12px;
     flex-shrink: 0;
     font-size: 16px;
-    --webkit-appearance: none;
+    -webkit-appearance: none;
     border: 1px solid ${palette.gray_b0};
     border-radius: 50%;
     outline: none;
@@ -61,7 +62,7 @@ const Container = styled.div<{ isValid: boolean; validateMode: boolean }>`
     }}
   }
 
-  input [type='radio']:checked {
+  input[type='radio']:checked {
     background-color: ${palette.dark_cyan};
     border: 0;
   }
@@ -81,7 +82,7 @@ const Container = styled.div<{ isValid: boolean; validateMode: boolean }>`
     display: block;
   }
 
-  .radio.description {
+  .radio-description {
     display: block;
     margin-top: 5px;
     margin-left: 28px;
