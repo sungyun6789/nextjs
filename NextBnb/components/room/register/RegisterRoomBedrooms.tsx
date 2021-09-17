@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from '../../../store';
 import palette from '../../../styles/palette';
+import { useDispatch } from 'react-redux';
+import { registerRoomActions } from '../../../store/registerRoom';
+import Counter from '../../common/Counter';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -21,9 +25,22 @@ const Container = styled.div`
     max-width: 400px;
     word-break: keep-all;
   }
+  .register-room-maximum-guest-count-wrapper {
+    width: 320px;
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
 `;
 
 const RegisterRoomBedrooms: React.FC = () => {
+  const maximumGuestCount = useSelector((state) => state.registerRoom.maximumGuestCount);
+  const dispatch = useDispatch();
+
+  // 최대 숙박 인원 변경 시
+  const onChangeMaximumGuestCount = (value: number) => {
+    dispatch(registerRoomActions.setMaximumGuestCount(value));
+  };
+
   return (
     <Container>
       <h2>숙소에 얼마나 많은 인원이 숙박할 수 있나요?</h2>
@@ -31,6 +48,13 @@ const RegisterRoomBedrooms: React.FC = () => {
       <p className="register-room-step-info">
         모든 게스트가 편안하게 숙박할 수 있도록 침대가 충분히 구비되어 있는지 확인하세요.
       </p>
+      <div className="register-room-maximum-guest-count-wrapper">
+        <Counter
+          label="최대 숙박 인원"
+          value={maximumGuestCount}
+          onChange={onChangeMaximumGuestCount}
+        />
+      </div>
     </Container>
   );
 };
