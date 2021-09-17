@@ -73,12 +73,49 @@ const registerRoom = createSlice({
     },
     // 침실 개수 변경하기
     setBedroomCount(state, action: PayloadAction<number>) {
-      state.bedroomCount = action.payload;
+      const bedroomCount = action.payload;
+      let { bedList } = state;
+
+      state.bedroomCount = bedroomCount;
+
+      if (bedroomCount < bedList.length) {
+        // 기존 침대 개수가 더 많으면 초과 부분 잘라내기
+        bedList = state.bedList.slice(0, bedroomCount);
+      } else {
+        // 변경될 침대 개수가 더 많으면 나머지 침실 채우기
+        for (let i = bedList.length + 1; i < bedroomCount + 1; i += 1) {
+          bedList.push({ id: i, beds: [] });
+        }
+      }
+
+      state.bedList = bedList;
+
       return state;
     },
     // 최대 침대 개수 변경하기
     setBedCount(state, action: PayloadAction<number>) {
       state.bedCount = action.payload;
+      return state;
+    },
+    setBedTypeCount(
+      state,
+      action: PayloadAction<{ bedroomId: number; type: BedType; count: number }>,
+    ) {
+      const { bedroomId, type, count } = action.payload;
+      const bedroom = state.bedList[bedroomId - 1];
+      const prevBeds = bedroom.beds;
+      const index = prevBeds.findIndex((bed) => bed.type === type);
+      if (index === -1) {
+        // 타입이 없다면
+        state.bedList[bedroomId - 1].beds = [...prevBeds, { type, count }];
+        return state;
+      }
+      // 타입이 존재한다면
+      if (count === 0) {
+        state.bedList[bedroomId - 1].beds.splice(index, 1);
+      } else {
+        state.bedList[bedroomId - 1].beds[index].count = count;
+      }
       return state;
     },
   },

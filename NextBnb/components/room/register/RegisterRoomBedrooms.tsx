@@ -8,6 +8,8 @@ import Counter from '../../common/Counter';
 import { getNumber } from '../../../lib/utils';
 import Selector from '../../common/Selector';
 import { bedroomCountList } from '../../../lib/staticData';
+import Button from '../../common/Button';
+import RegisterRoomBedTypes from './RegisterRoomBedTypes';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -41,6 +43,35 @@ const Container = styled.div`
     width: 320px;
     margin-bottom: 57px;
   }
+  .register-room-bed-type-info {
+    margin-top: 6px;
+    margin-bottom: 20px;
+    max-width: 400px;
+    word-break: keep-all;
+  }
+  .register-room-bed-type-list-wrapper {
+    width: 548px;
+  }
+  .register-room-bedroom {
+    width: 100%;
+    padding: 28px 0;
+    border-top: 1px solid ${palette.gray_dd};
+    &:last-child {
+      border-bottom: 1px solid ${palette.gray_dd};
+    }
+  }
+  .register-room-bed-type-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .register-room-bed-type-bedroom-texts {
+    margin-bottom: 28px;
+  }
+  .register-room-bed-type-bedroom {
+    font-size: 18px;
+    color: ${palette.gray_48};
+  }
 `;
 
 const RegisterRoomBedrooms: React.FC = () => {
@@ -48,6 +79,7 @@ const RegisterRoomBedrooms: React.FC = () => {
   const maximumGuestCount = useSelector((state) => state.registerRoom.maximumGuestCount);
   const bedroomCount = useSelector((state) => state.registerRoom.bedroomCount);
   const bedCount = useSelector((state) => state.registerRoom.bedCount);
+  const bedList = useSelector((state) => state.registerRoom.bedList);
 
   // 최대 숙박 인원 변경 시
   const onChangeMaximumGuestCount = (value: number) => {
@@ -87,6 +119,31 @@ const RegisterRoomBedrooms: React.FC = () => {
       <div className="register-room-bed-count-wrapper">
         <Counter label="침대" value={bedCount} onChange={onChangeBedCount} />
       </div>
+      <h4>침대 유형</h4>
+      <p className="register-room-bed-type-info">
+        각 침실에 놓인 침대 유형을 명시하면 숙소에 침대가 어떻게 구비되어 있는지 게스트가 잘 파악할
+        수 있습니다.
+      </p>
+      {/* <div className="register-room-bed-type-list-wrapper">
+        {bedList.map((bedroom) => (
+          <div className="register-room-bedroom" key={bedroom.id}>
+            <div className="register-room-bed-type-top">
+              <div className="register-room-bed-type-bedroom-tests">
+                <p className="register-room-bed-type-bedroom">{bedroom.id}번 침실</p>
+                <p className="register-room-bed-type-bedroom-counts">침대 0개</p>
+              </div>
+              <Button styleType="register" color="white">
+                침대 추가하기
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div> */}
+      <ul className="register-room-bed-type-list-wrapper">
+        {bedList.map((bedroom) => (
+          <RegisterRoomBedTypes key={bedroom.id} bedroom={bedroom} />
+        ))}
+      </ul>
     </Container>
   );
 };
