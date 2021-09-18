@@ -41,6 +41,10 @@ const Container = styled.li`
     width: 290px;
     margin-bottom: 18px;
   }
+  .register-room-bed-type-bedroom-counts {
+    font-size: 19px;
+    color: ${palette.gray_76};
+  }
 `;
 
 interface IProps {
@@ -49,9 +53,9 @@ interface IProps {
 
 const RegisterRoomBedTypes: React.FC<IProps> = ({ bedroom }) => {
   const dispatch = useDispatch();
-
+  const initialBedOptions = bedroom.beds.map((bed) => bed.type);
   const [opened, setOpened] = useState(false);
-  const [activedBedOptions, setActivedBedOptions] = useState<BedType[]>([]); // 선택된 침대 옵션들
+  const [activedBedOptions, setActivedBedOptions] = useState<BedType[]>(initialBedOptions); // 선택된 침대 옵션들
 
   // 침대 개수 총합
   const totalBedsCount = useMemo(() => {
@@ -80,14 +84,21 @@ const RegisterRoomBedTypes: React.FC<IProps> = ({ bedroom }) => {
       }),
     );
 
-  console.log(lastBedOptions);
+  // 침대 종류 텍스트
+  const bedText = useMemo(() => {
+    const texts = bedroom.beds.map((bed) => `${bed.type} ${bed.count}개`);
+    return texts.join(',');
+  }, [bedroom]);
 
   return (
     <Container>
       <div className="register-room-bed-type-top">
         <div className="register-room-bed-type-bedroom-texts">
           <p className="register-room-bed-type-bedroom">{bedroom.id}번 침실</p>
-          <p className="register-room-bed-type-bedroom-counts">침대 {totalBedsCount}개</p>
+          <p className="register-room-bed-type-bedroom-counts">
+            침대 {totalBedsCount}개<br />
+            {bedText}
+          </p>
         </div>
         <Button onClick={toggleOpend} styleType="register" color="white">
           {opened && '완료'}
