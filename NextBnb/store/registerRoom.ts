@@ -15,6 +15,15 @@ type RegisterRoomState = {
 
   bathroomCount: number;
   bathroomType: 'private' | 'public' | null;
+
+  country: string;
+  city: string;
+  district: string;
+  streetAddress: string;
+  detailAddress: string;
+  postcode: string;
+  latiude: number;
+  longitude: number;
 };
 
 // 초기 상태
@@ -41,6 +50,22 @@ const initialState: RegisterRoomState = {
   bathroomCount: 1,
   // 욕실 유형
   bathroomType: null,
+  // 국가/지역
+  country: '',
+  // 시/도
+  city: '',
+  // 시/군/구
+  district: '',
+  // 도로명주소
+  streetAddress: '',
+  // 동호수
+  detailAddress: '',
+  // 우편번호
+  postcode: '',
+  // 위도
+  latiude: 0,
+  // 경도
+  longitude: 0,
 };
 
 const registerRoom = createSlice({
@@ -153,6 +178,39 @@ const registerRoom = createSlice({
     // 욕실 유형 변경하기
     setBathroomType(state, action: PayloadAction<'private' | 'public'>) {
       state.bathroomType = action.payload;
+    },
+
+    // 국가 변경하기
+    setCountry(state, action: PayloadAction<string>) {
+      state.country = action.payload;
+    },
+    // 시/도 변경하기
+    setCity(state, action: PayloadAction<string>) {
+      state.city = action.payload;
+    },
+    // 시/군/구 변경하기
+    setDistrict(state, action: PayloadAction<string>) {
+      state.district = action.payload;
+    },
+    // 도로명주소 변경하기
+    setStreetAddress(state, action: PayloadAction<string>) {
+      state.streetAddress = action.payload;
+    },
+    // 동호수 변경하기
+    setDetailAddress(state, action: PayloadAction<string>) {
+      state.detailAddress = action.payload;
+    },
+    // 우편번호 변경하기
+    setPostcode(state, action: PayloadAction<string>) {
+      state.postcode = action.payload;
+    },
+    // 위도 변경하기
+    setLatiude(state, action: PayloadAction<number>) {
+      state.latiude = action.payload;
+    },
+    // 경도 변경하기
+    setLongitude(state, action: PayloadAction<number>) {
+      state.longitude = action.payload;
     },
   },
 });
