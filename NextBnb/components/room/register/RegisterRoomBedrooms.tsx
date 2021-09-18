@@ -9,6 +9,7 @@ import { getNumber } from '../../../lib/utils';
 import Selector from '../../common/Selector';
 import { bedroomCountList } from '../../../lib/staticData';
 import RegisterRoomBedList from './RegisterRoomBedList';
+import RegisterRoomFooter from '../../register/RegisterRoomFooter';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -108,10 +109,8 @@ const RegisterRoomBedrooms: React.FC = () => {
       <div className="register-room-bedroom-count-wrapper">
         <Selector
           type="register"
-          value={`침실 ${bedroomCount}개`}
-          onChange={onChangeBedroomCount}
           label="게스트가 사용할 수 있는 침실은 몇 개인가요?"
-          options={bedroomCountList}
+          isValid={!!bedroomCount}
         />
       </div>
       <div className="register-room-bed-count-wrapper">
@@ -123,6 +122,11 @@ const RegisterRoomBedrooms: React.FC = () => {
         수 있습니다.
       </p>
       <RegisterRoomBedList />
+      <RegisterRoomFooter
+        prevHref="/room/register/bulding"
+        nextHref="/room/register/bathroom"
+        isValid={!!bedroomCount}
+      />
     </Container>
   );
 };
