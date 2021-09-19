@@ -30,12 +30,12 @@ const Container = styled.div`
     border: 0;
     width: 0;
     height: 0;
-    --webkit-appearance: none;
+    -webkit-appearance: none;
   }
   input[type='checkbox']:checked {
     margin: 0;
     border: 0;
-    --webkit-appearance: none;
+    -webkit-appearance: none;
   }
   input[type='checkbox'] + input {
     display: none;
@@ -53,23 +53,23 @@ const Container = styled.div`
     height: 18px;
     position: absolute;
     top: 0;
-    display: inline-block;
+    display: inline-table;
     border: 1px solid ${palette.gray_b0};
     border-radius: 2px;
     box-sizing: border-box;
     background-color: white;
     cursor: pointer;
   }
-  inpit[type='checkbox']:checked + span::before {
+  input[type='checkbox']:checked + span::before {
     content: ' ';
     width: 18px;
     height: 18px;
-    display: inline-block;
+    display: inline-table;
     background-color: ${palette.dark_cyan};
     border: 0;
     border-radius: 2px;
     position: absolute;
-    background-image: url('/static/svg/checkbox/checkbox_mark.svg');
+    background-image: url('/static/svg/common/checkbox/checkbox_mark.svg');
     background-repeat: no-repeat;
     background-position: center;
   }
