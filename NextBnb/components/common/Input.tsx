@@ -11,6 +11,12 @@ type InputContainerProps = {
 };
 
 const Container = styled.div<InputContainerProps>`
+  label {
+    span {
+      display: flex;
+      margin-bottom: 8px;
+    }
+  }
   input {
     position: relative;
     width: 100%;
@@ -63,12 +69,14 @@ const Container = styled.div<InputContainerProps>`
 // 인풋 태그가 가지는 속성들에 대한 타입이다.
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: JSX.Element;
+  label?: string;
   isValid?: boolean;
   useValidation?: boolean;
   errorMessage?: string;
 }
 
 const Input: React.FC<IProps> = ({
+  label,
   icon,
   isValid = false,
   useValidation = true,
@@ -78,7 +86,13 @@ const Input: React.FC<IProps> = ({
   const validateMode = useSelector((state) => state.common.validateMode);
   return (
     <Container iconExist={!!icon} isValid={isValid} useValidation={validateMode && useValidation}>
-      <input {...props} />
+      {label && (
+        <label>
+          <span>{label}</span>
+          <input {...props} />
+        </label>
+      )}
+      {!label && <input {...props} />}
       {icon}
       {useValidation && validateMode && !isValid && errorMessage && (
         <p className="input-error-message">{errorMessage}</p>
