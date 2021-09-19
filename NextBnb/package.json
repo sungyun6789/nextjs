@@ -17,6 +17,7 @@
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-styled-components": "^1.13.2",
     "bcryptjs": "^2.4.3",
+    "formidable": "^1.2.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "next": "10.0.0",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/formidable": "^1.2.4",
     "@types/googlemaps": "^3.43.3",
     "@types/node": "^16.7.1",
     "@types/react": "^17.0.19",
