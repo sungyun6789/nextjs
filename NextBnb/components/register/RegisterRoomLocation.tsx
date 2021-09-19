@@ -9,6 +9,7 @@ import Input from '../common/Input';
 import { useSelector } from '../../store';
 import { useDispatch } from 'react-redux';
 import { registerRoomActions } from '../../store/registerRoom';
+import { getLocationInfoAPI } from '../../lib/api/map';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -92,9 +93,16 @@ const RegisterRoomLocation: React.FC = () => {
     dispatch(registerRoomActions.setPostcode(event.target.value));
 
   // 현재 위치 불러오기에 성공했을 때
-  const onSuccessGetLocation = ({ coords }: any) => {
-    console.log('latitude', coords.latitude);
-    console.log('longitude', coords.longitude);
+  const onSuccessGetLocation = async ({ coords }: any) => {
+    try {
+      const { data } = await getLocationInfoAPI({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+    } catch (error) {
+      console.log(error);
+      alert(error?.message);
+    }
   };
 
   // 현재 위치 사용 클릭 시
