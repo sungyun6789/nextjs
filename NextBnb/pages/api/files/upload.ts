@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import aws from 'aws-sdk';
 import { createReadStream } from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 export const config = {
   api: {
@@ -22,16 +23,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
           const stream = createReadStream(files.file.path);
 
+          // 파일이름
+          const originalFileName = files.file.name.split('.').shift();
+          // 확장자
+          const fileExtension = files.file.name.split('.').pop();
+
           await s3
             .upload({
               Bucket: process.env.S3_BUCKET_NAME!,
-              Key: files.file.name!,
+              Key: `${originalFileName}__${uuidv4()}.${fileExtension}`,
               ACL: 'public-read',
               Body: stream,
             })
             .promise()
-            .then((res) => console.log(res))
-            .catch((error) => console.log(error));
+            .then((res) => resolve(res.Location))
+            .catch((error) => reject(error));
         });
       });
       res.statusCode = 201;
