@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import palette from '../../../styles/palette';
 
 import PencilIcon from '../../../public/static//svg/register/photo/pencil.svg';
 import TrashCanIcon from '../../../public/static/svg/register/photo/trash_can.svg';
+import GrayPlusIcon from '../../../public/static/svg/register/photo/gray_plus.svg';
 
 const Container = styled.ul`
   width: 858px;
@@ -56,6 +58,54 @@ const Container = styled.ul`
       }
     }
   }
+
+  li:nth-child(3n + 1) {
+    margin-right: 0;
+  }
+  .register-room-photo-card {
+    position: relative;
+    display: inline-block;
+    width: calc((100% - 48px) / 3);
+    height: 180px;
+    border-radius: 6px;
+
+    overflow: hidden;
+    margin-right: 24px;
+    margin-bottom: 24px;
+    &:hover {
+      .register-room-photo-interaction-buttons {
+        display: flex;
+      }
+    }
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // 사진 추가하기 카드
+  .register-room-add-more-photo-card {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 2px dashed ${palette.gray_bb};
+    border-radius: 6px;
+    cursor: pointer;
+    overflow: hidden;
+    margin-right: 24px;
+    margin-bottom: 24px;
+    display: flex;
+
+    svg {
+      margin-bottom: 12px;
+    }
+  }
 `;
 
 interface IProps {
@@ -80,8 +130,27 @@ const RegisterRoomPhotoCardList: React.FC<IProps> = ({ photos }) => {
               </div>
             </li>
           )}
+          {index !== 0 && (
+            <li className="register-room-photo-card">
+              <img src={photo} alt="" />
+              <div className="register-room-photo-interaction-buttons">
+                <button type="button" onClick={() => {}}>
+                  <TrashCanIcon />
+                </button>
+                <button type="button" onClick={() => {}}>
+                  <PencilIcon />
+                </button>
+              </div>
+            </li>
+          )}
         </React.Fragment>
       ))}
+      <li className="register-room-photo-card" role="presentation" onClick={() => {}}>
+        <div className="register-room-add-more-photo-card">
+          <GrayPlusIcon />
+          추가하기
+        </div>
+      </li>
     </Container>
   );
 };

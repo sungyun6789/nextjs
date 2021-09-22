@@ -77,7 +77,11 @@ const initialState: RegisterRoomState = {
   // 편의 공간
   conveniences: [],
   // 숙소 사진
-  photos: [],
+  photos: [
+    'https://a.cdn-hotels.com/gdcs/production141/d196/0e2d3e0f-a8d4-4e9e-86e0-f540e8b516a1.jpg',
+    'https://a.cdn-hotels.com/gdcs/production141/d196/0e2d3e0f-a8d4-4e9e-86e0-f540e8b516a1.jpg',
+    'https://a.cdn-hotels.com/gdcs/production141/d196/0e2d3e0f-a8d4-4e9e-86e0-f540e8b516a1.jpg',
+  ],
 };
 
 const registerRoom = createSlice({
