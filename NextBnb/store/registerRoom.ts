@@ -30,6 +30,8 @@ type RegisterRoomState = {
   conveniences: string[];
 
   photos: string[];
+
+  description: string;
 };
 
 // 초기 상태
@@ -82,6 +84,8 @@ const initialState: RegisterRoomState = {
     'https://a.cdn-hotels.com/gdcs/production141/d196/0e2d3e0f-a8d4-4e9e-86e0-f540e8b516a1.jpg',
     'https://a.cdn-hotels.com/gdcs/production141/d196/0e2d3e0f-a8d4-4e9e-86e0-f540e8b516a1.jpg',
   ],
+  // 숙소 설명
+  description: '',
 };
 
 const registerRoom = createSlice({
@@ -239,6 +243,10 @@ const registerRoom = createSlice({
     // 숙소 사진 변경하기
     setPhotos(state, action: PayloadAction<string[]>) {
       state.photos = action.payload;
+    },
+    // 숙소 설명 변경하기
+    setDescription(state, action: PayloadAction<string>) {
+      state.description = action.payload;
     },
   },
 });
