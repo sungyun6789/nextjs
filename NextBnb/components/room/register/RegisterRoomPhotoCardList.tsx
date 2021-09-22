@@ -5,6 +5,10 @@ import palette from '../../../styles/palette';
 import PencilIcon from '../../../public/static//svg/register/photo/pencil.svg';
 import TrashCanIcon from '../../../public/static/svg/register/photo/trash_can.svg';
 import GrayPlusIcon from '../../../public/static/svg/register/photo/gray_plus.svg';
+import { useDispatch } from 'react-redux';
+import { uploadFileAPI } from '../../../lib/api/file';
+import { registerRoomActions } from '../../../store/registerRoom';
+import RegisterRoomFooter from '../../register/RegisterRoomFooter';
 
 const Container = styled.ul`
   width: 858px;
@@ -113,6 +117,55 @@ interface IProps {
 }
 
 const RegisterRoomPhotoCardList: React.FC<IProps> = ({ photos }) => {
+  const dispatch = useDispatch();
+
+  // 사진 추가하기
+  const addPhoto = () => {
+    const el = document.createElement('input');
+    el.type = 'file';
+    el.accept = 'image/*';
+    el.onchange = (event) => {
+      const { files } = event.target as HTMLInputElement;
+      if (files && files.length > 0) {
+        const file = files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        uploadFileAPI(formData)
+          .then(({ data }) => dispatch(registerRoomActions.setPhotos([...photos, data])))
+          .catch((error) => console.log(error));
+      }
+    };
+
+    el.click();
+  };
+
+  // 사진 삭제하기
+  const deletePhoto = (index: number) => {
+    const newPhotos = [...photos];
+    newPhotos.splice(index, 1);
+    dispatch(registerRoomActions.setPhotos(newPhotos));
+  };
+
+  // 사진 수정하기
+  const editPhoto = (index: number) => {
+    const el = document.createElement('input');
+    el.type = 'file';
+    el.onchange = (event) => {
+      const file = (event.target as HTMLInputElement)?.files?.[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        uploadFileAPI(formData)
+          .then(({ data }) => {
+            const newPhotos = [...photos];
+            newPhotos[index] = data;
+            dispatch(registerRoomActions.setPhotos(newPhotos));
+          })
+          .catch((error) => console.log(error.message));
+      }
+    };
+  };
+
   return (
     <Container>
       {photos.map((photo, index) => (
@@ -121,10 +174,10 @@ const RegisterRoomPhotoCardList: React.FC<IProps> = ({ photos }) => {
             <li className="register-room-first-photo-wrapper">
               <img src={photo} alt="" />
               <div className="register-room-photo-interaction-buttons">
-                <button type="button" onClick={() => {}}>
+                <button type="button" onClick={() => deletePhoto(index)}>
                   <TrashCanIcon />
                 </button>
-                <button type="button" onClick={() => {}}>
+                <button type="button" onClick={() => editPhoto(index)}>
                   <PencilIcon />
                 </button>
               </div>
@@ -134,10 +187,10 @@ const RegisterRoomPhotoCardList: React.FC<IProps> = ({ photos }) => {
             <li className="register-room-photo-card">
               <img src={photo} alt="" />
               <div className="register-room-photo-interaction-buttons">
-                <button type="button" onClick={() => {}}>
+                <button type="button" onClick={() => deletePhoto(index)}>
                   <TrashCanIcon />
                 </button>
-                <button type="button" onClick={() => {}}>
+                <button type="button" onClick={() => editPhoto(index)}>
                   <PencilIcon />
                 </button>
               </div>
@@ -145,12 +198,16 @@ const RegisterRoomPhotoCardList: React.FC<IProps> = ({ photos }) => {
           )}
         </React.Fragment>
       ))}
-      <li className="register-room-photo-card" role="presentation" onClick={() => {}}>
+      <li className="register-room-photo-card" role="presentation" onClick={addPhoto}>
         <div className="register-room-add-more-photo-card">
           <GrayPlusIcon />
           추가하기
         </div>
       </li>
+      <RegisterRoomFooter
+        prevHref="/room/register/conveniences"
+        nextHref="/room/register/description"
+      />
     </Container>
   );
 };
