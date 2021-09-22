@@ -25,6 +25,7 @@
     "next": "10.0.0",
     "next-redux-wrapper": "6.0.2",
     "react": "^17.0.2",
+    "react-autosize-textarea": "^7.1.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "redux": "^4.1.1",
