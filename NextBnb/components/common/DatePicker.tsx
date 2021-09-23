@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import palette from '../../styles/palette';
 import 'react-datepicker/dist/react-datepicker.css';
+import ko from 'date-fns/locale/ko';
+import addHours from 'date-fns/addHours';
 
 const Container = styled.div`
   width: 100%;
@@ -115,10 +117,22 @@ const Container = styled.div`
   }
 `;
 
-const DatePicker: React.FC<ReactDatePickerProps> = ({ ...props }) => {
+const DatePicker: React.FC<ReactDatePickerProps> = ({ onChange, ...props }) => {
   return (
     <Container>
-      <ReactDatePicker {...props} disabledKeyboardNavigation />
+      <ReactDatePicker
+        {...props}
+        dateFormat="MM월dd일"
+        disabledKeyboardNavigation
+        locale={ko}
+        onChange={(date, event) => {
+          if (date) {
+            onChange(addHours(date as Date, 9), event);
+          } else {
+            onChange(null, event);
+          }
+        }}
+      />
     </Container>
   );
 };
