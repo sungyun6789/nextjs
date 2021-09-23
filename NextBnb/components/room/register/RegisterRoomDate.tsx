@@ -5,6 +5,7 @@ import { useSelector } from '../../../store';
 import { registerRoomActions } from '../../../store/registerRoom';
 import palette from '../../../styles/palette';
 import DatePicker from '../../common/DatePicker';
+import RegisterRoomFooter from '../../register/RegisterRoomFooter';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -56,15 +57,16 @@ const RegisterRoomDate: React.FC = () => {
   const startDate = useSelector((state) => state.registerRoom.startDate);
   const endDate = useSelector((state) => state.registerRoom.endDate);
 
+  const dateStartDate = startDate ? new Date(startDate) : null;
+  const dateEndDate = endDate ? new Date(endDate) : null;
+
   // 예약 시작 날짜 변경 시
   const onChangeStartDate = (date: Date | null) => {
-    console.log(date);
     dispatch(registerRoomActions.setStartDate(date ? date.toISOString() : null));
   };
 
   // 예약 종료 날짜 변경 시
   const onChangeEndDate = (date: Date | null) => {
-    console.log(date);
     dispatch(registerRoomActions.setEndDate(date ? date.toISOString() : null));
   };
 
@@ -77,8 +79,13 @@ const RegisterRoomDate: React.FC = () => {
           <label>
             <span>예약 시작일</span>
             <DatePicker
-              selected={startDate ? new Date(startDate) : null}
+              selected={dateStartDate}
               onChange={onChangeStartDate}
+              monthsShown={2}
+              selectsStart
+              startDate={dateStartDate}
+              endDate={dateEndDate}
+              minDate={new Date()}
             />
           </label>
         </div>
@@ -86,10 +93,20 @@ const RegisterRoomDate: React.FC = () => {
         <div className="register-room-end-date">
           <label>
             <span>예약 시작일</span>
-            <DatePicker selected={endDate ? new Date(endDate) : null} onChange={onChangeEndDate} />
+            <DatePicker
+              selected={dateEndDate}
+              onChange={onChangeEndDate}
+              monthsShown={2}
+              selectsEnd
+              startDate={dateStartDate}
+              endDate={dateEndDate}
+              minDate={dateStartDate}
+            />
           </label>
         </div>
       </div>
+
+      <RegisterRoomFooter prevHref="/room/register/price" nextHref="/room/register/checklist" />
     </Container>
   );
 };
