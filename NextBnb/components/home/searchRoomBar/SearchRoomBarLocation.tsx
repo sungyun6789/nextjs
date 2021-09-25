@@ -1,10 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import OutsizeClickHandler from 'react-outside-click-handler';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { searchPlacesAPI } from '../../../lib/api/map';
 import { useSelector } from '../../../store';
 import { searchRoomActions } from '../../../store/searchRoom';
 import palette from '../../../styles/palette';
+import isEmpty from 'lodash/isEmpty';
 
 const Container = styled.div`
   position: relative;
@@ -72,7 +74,16 @@ const SearchRoomBarLocation: React.FC = () => {
 
   const location = useSelector((state) => state.searchRoom.location);
   const [popupOpend, setPopupOpend] = useState(false);
+  // 검색 결과
+  const [results, setResults] = useState<{ description: string; placeId: string }[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // 검색어가 변하면 장소를 검색
+  useEffect(() => {
+    if (location) {
+      searchPlaces();
+    }
+  }, [location]);
 
   // 위치 변경하기
   const setLocationDispatch = (value: string) => {
@@ -84,6 +95,16 @@ const SearchRoomBarLocation: React.FC = () => {
       inputRef.current.focus();
     }
     setPopupOpend(true);
+  };
+
+  // 장소 검색하기
+  const searchPlaces = async () => {
+    try {
+      const { data } = await searchPlacesAPI(encodeURI(location));
+      setResults(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -98,9 +119,12 @@ const SearchRoomBarLocation: React.FC = () => {
             ref={inputRef}
           />
         </div>
-        {popupOpend && (
+        {popupOpend && location !== '근처 추천 장소' && (
           <ul className="search-roo-bar-location-results">
-            <li>근처 추천 장소</li>
+            {!location && <li>근처 추천 장소</li>}
+            {!isEmpty(results) &&
+              results.map((result, index) => <li key={index}>{result.description}</li>)}
+            {location && isEmpty(results) && <li>검색 결과가 없습니다.</li>}
           </ul>
         )}
       </OutsizeClickHandler>
