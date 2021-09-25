@@ -90,11 +90,6 @@ const SearchRoomBarLocation: React.FC = () => {
     }
   }, [searchKeyword]);
 
-  // 위치 변경하기
-  const setLocationDispatch = (value: string) => {
-    dispatch(searchRoomActions.setLocation(value));
-  };
-
   const onClickInput = () => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -112,6 +107,34 @@ const SearchRoomBarLocation: React.FC = () => {
     }
   };
 
+  // 위치 변경
+  const setLocationDispatch = (value: string) => {
+    dispatch(searchRoomActions.setLocation(value));
+  };
+
+  // 위도 변경
+  const setLatitudeDispatch = (value: number) => {
+    dispatch(searchRoomActions.setLatitude(value));
+  };
+
+  // 경도 변경
+  const setLongitudeDispatch = (value: number) => {
+    dispatch(searchRoomActions.setLongitude(value));
+  };
+
+  // 근처 추천 장소 클릭 시
+  const onClickNearPlaces = () => {
+    setPopupOpend(false);
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        setLocationDispatch('근처 추천 장소');
+        setLatitudeDispatch(coords.latitude);
+        setLongitudeDispatch(coords.longitude);
+      },
+      (e) => console.log(e),
+    );
+  };
+
   return (
     <Container onClick={onClickInput}>
       <OutsizeClickHandler onOutsideClick={() => setPopupOpend(false)}>
@@ -126,7 +149,11 @@ const SearchRoomBarLocation: React.FC = () => {
         </div>
         {popupOpend && location !== '근처 추천 장소' && (
           <ul className="search-roo-bar-location-results">
-            {!location && <li>근처 추천 장소</li>}
+            {!location && (
+              <li role="presentation" onClick={onClickNearPlaces}>
+                근처 추천 장소
+              </li>
+            )}
             {!isEmpty(results) &&
               results.map((result, index) => <li key={index}>{result.description}</li>)}
             {location && isEmpty(results) && <li>검색 결과가 없습니다.</li>}
