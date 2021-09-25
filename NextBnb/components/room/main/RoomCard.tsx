@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import differenceInDays from 'date-fns/differenceInDays';
 import Link from 'next/link';
@@ -130,8 +130,59 @@ const Container = styled.li<{ showMap: boolean }>`
     `}
 `;
 
-const RoomCard = () => {
-  return <div></div>;
+interface IProps {
+  room: RoomType;
+  showMap: boolean;
+}
+
+const RoomCard: React.FC<IProps> = ({ room, showMap }) => {
+  const checkInDate = useSelector((state) => state.searchRoom.checkInDate);
+  const checkOutDate = useSelector((state) => state.searchRoom.checkOutDate);
+
+  const remainDays =
+    checkOutDate && checkInDate && differenceInDays(new Date(checkOutDate), new Date(checkInDate));
+
+  // 한글로 된 숙소 유형
+  const translatedRoomType = useMemo(() => {
+    switch (room.roomType) {
+      case 'entire':
+        return '집 전체';
+      case 'private':
+        return '개인실';
+      case 'public':
+        return '공용';
+      default:
+        return '';
+    }
+  }, []);
+
+  return (
+    <Container showMap={showMap}>
+      <Link href={`/room/${room.id}`}>
+        <a>
+          <div className="room-card-photo-wrapper">
+            <img src={room.photos[0]} alt="" />
+          </div>
+          <div className="room-card-photo-texts">
+            <p className="room-card-room-info">
+              {room.buildingType} {translatedRoomType} {room.district} {room.city}
+            </p>
+            <p className="room-card-title">{room.title}</p>
+            <div className="room-card-text-divider" />
+
+            <p className="room-card-price">
+              <b>${room.price} </b>1박
+            </p>
+            {!!remainDays && (
+              <p className="room-card-total-price">
+                총 요금: ${makeMoneyString(`${Number(room.price) * remainDays}`)}
+              </p>
+            )}
+          </div>
+        </a>
+      </Link>
+    </Container>
+  );
 };
 
 export default RoomCard;
