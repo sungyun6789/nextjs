@@ -93,7 +93,7 @@ const RoomMain: React.FC = () => {
         </button>
       </div>
       <div className="room-list-wrapper">
-        <RoomList />
+        <RoomList showMap={showMap} />
       </div>
     </Container>
   );
