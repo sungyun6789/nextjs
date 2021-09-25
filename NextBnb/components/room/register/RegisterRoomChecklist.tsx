@@ -2,7 +2,9 @@ import { isEmpty } from 'lodash';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from '../../../store';
+import RegisterRoomFooter from '../../register/RegisterRoomFooter';
 import RegisterRoomCheckStep from './RegisterRoomCheckStep';
+import RegisterRoomSubmitFooter from './RegisterRoomSubmitFooter';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -218,6 +220,14 @@ const RegisterRoomChecklist: React.FC = () => {
           inProgress={stepInProgress === 'date'}
         />
       </ul>
+      {isDateActived ? (
+        <RegisterRoomSubmitFooter />
+      ) : (
+        <RegisterRoomFooter
+          prevHref="/room/register/date"
+          nextHref={`/room/register/${stepInProgress}`}
+        />
+      )}
     </Container>
   );
 };
