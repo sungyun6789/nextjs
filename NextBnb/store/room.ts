@@ -13,6 +13,7 @@ const room = createSlice({
   reducers: {
     setRooms(state, action: PayloadAction<RoomType[]>) {
       state.rooms = action.payload;
+      return state;
     },
   },
 });
@@ -20,4 +21,3 @@ const room = createSlice({
 export const roomActions = { ...room.actions };
 
 export default room;
-4;
