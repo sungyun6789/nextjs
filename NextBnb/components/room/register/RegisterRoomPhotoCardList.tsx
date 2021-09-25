@@ -8,7 +8,7 @@ import GrayPlusIcon from '../../../public/static/svg/register/photo/gray_plus.sv
 import { useDispatch } from 'react-redux';
 import { uploadFileAPI } from '../../../lib/api/file';
 import { registerRoomActions } from '../../../store/registerRoom';
-import RegisterRoomFooter from '../../register/RegisterRoomFooter';
+import RegisterRoomFooter from './RegisterRoomFooter';
 
 const Container = styled.ul`
   width: 858px;

@@ -1,7 +1,7 @@
 import { NextApiResponse, NextApiRequest } from 'next';
 import isEmpty from 'lodash/isEmpty';
-import { StoredRoomType } from '../../types/room';
-import Data from '../../lib/data';
+import { StoredRoomType } from '../../../types/room';
+import Data from '../../../lib/data';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {

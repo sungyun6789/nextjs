@@ -4,9 +4,7 @@ import React from 'react';
 
 const RegisterRoomGeometry = dynamic(
   import('../../../components/room/register/RegisterRoomGeometry'),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 );
 
 const geometry: NextPage = () => {

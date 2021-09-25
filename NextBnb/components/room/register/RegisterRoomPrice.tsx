@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import RegisterRoomFooter from './RegisterRoomFooter';
-import palette from '../../styles/palette';
-import { useSelector } from '../../store';
-import Input from '../common/Input';
-import { registerRoomActions } from '../../store/registerRoom';
-import { makeMoneyString } from '../../lib/utils';
+import palette from '../../../styles/palette';
+import { useSelector } from '../../../store';
+import Input from '../../common/Input';
+import { registerRoomActions } from '../../../store/registerRoom';
+import { makeMoneyString } from '../../../lib/utils';
 
 const Container = styled.div`
   padding: 62px 30px 100px;

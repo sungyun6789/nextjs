@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import palette from '../../styles/palette';
-import Counter from '../common/Counter';
-import { useSelector } from '../../store';
+import palette from '../../../styles/palette';
+import Counter from '../../common/Counter';
+import { useSelector } from '../../../store';
 import RegisterRoomFooter from './RegisterRoomFooter';
-import RadioGroup from '../common/RadioGroup';
-import { registerRoomActions } from '../../store/registerRoom';
+import RadioGroup from '../../common/RadioGroup';
+import { registerRoomActions } from '../../../store/registerRoom';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -61,8 +61,8 @@ const RegisterRoomBathroom: React.FC = () => {
       />
       <RegisterRoomFooter
         prevHref="/room/register/bedrooms"
-        nextHref="/room/register/laction"
-        isValid={bathroomCount > 0 && !bathroomType}
+        nextHref="/room/register/location"
+        isValid={bathroomCount > 0 && !!bathroomType}
       />
     </Container>
   );

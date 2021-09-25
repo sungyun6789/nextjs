@@ -5,7 +5,7 @@ import palette from '../../../styles/palette';
 import throttle from 'lodash/throttle';
 import { useDispatch } from 'react-redux';
 import { registerRoomActions } from '../../../store/registerRoom';
-import RegisterRoomFooter from '../../register/RegisterRoomFooter';
+import RegisterRoomFooter from './RegisterRoomFooter';
 
 const Container = styled.div`
   padding: 62px 30px 100px;

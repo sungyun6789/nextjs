@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from '../../../store';
 import { registerRoomActions } from '../../../store/registerRoom';
 import CheckboxGroup from '../../common/CheckboxGroup';
-import RegisterRoomFooter from '../../register/RegisterRoomFooter';
+import RegisterRoomFooter from './RegisterRoomFooter';
 
 const Container = styled.div`
   padding: 62px 30px 100px;

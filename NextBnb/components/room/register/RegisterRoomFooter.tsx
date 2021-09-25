@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import BackArrowIcon from '../../public/static/svg/register/register_room_footer_back_arrow.svg';
-import Button from '../common/Button';
-import palette from '../../styles/palette';
-import useValidateMode from '../../hooks/useValidateMode';
+import Button from '../../common/Button';
+import palette from '../../../styles/palette';
+import useValidateMode from '../../../hooks/useValidateMode';
 
 const Container = styled.footer`
   position: fixed;

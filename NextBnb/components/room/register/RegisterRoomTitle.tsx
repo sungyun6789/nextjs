@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import palette from '../../../styles/palette';
 import { useSelector } from '../../../store';
 import { registerRoomActions } from '../../../store/registerRoom';
-import RegisterRoomFooter from '../../register/RegisterRoomFooter';
+import RegisterRoomFooter from './RegisterRoomFooter';
 import Input from '../../common/Input';
 
 const Container = styled.div`

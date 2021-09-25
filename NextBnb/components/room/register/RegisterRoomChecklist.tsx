@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from '../../../store';
-import RegisterRoomFooter from '../../register/RegisterRoomFooter';
+import RegisterRoomFooter from './RegisterRoomFooter';
 import RegisterRoomCheckStep from './RegisterRoomCheckStep';
 import RegisterRoomSubmitFooter from './RegisterRoomSubmitFooter';
 
@@ -42,7 +42,7 @@ const RegisterRoomChecklist: React.FC = () => {
   // 욕실 항목이 활성화됐는지
   const isBathroomActived = useMemo(() => {
     const { bathroomCount, bathroomType } = registerRoom;
-    if (!isRoomTypeActived || !bathroomCount || !bathroomType === null) {
+    if (!isRoomTypeActived || !bathroomCount || bathroomType === null) {
       return false;
     }
     return true;
@@ -60,7 +60,6 @@ const RegisterRoomChecklist: React.FC = () => {
       !city ||
       !district ||
       !streetAddress ||
-      !detailAddress ||
       !postcode
     ) {
       return false;
@@ -72,7 +71,7 @@ const RegisterRoomChecklist: React.FC = () => {
   const isAmentitiesActived = useMemo(() => {
     const { amentities } = registerRoom;
 
-    if (!isLocationActived || !amentities) {
+    if (!isLocationActived) {
       return false;
     }
     return true;

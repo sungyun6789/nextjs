@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import palette from '../../styles/palette';
-import NavigatorIcon from '../../public/static/svg/register/navigation.svg';
-import Button from '../common/Button';
-import Selector from '../common/Selector';
-import { countryList } from '../../lib/staticData';
-import Input from '../common/Input';
-import { useSelector } from '../../store';
 import { useDispatch } from 'react-redux';
-import { registerRoomActions } from '../../store/registerRoom';
-import { getLocationInfoAPI } from '../../lib/api/map';
+import palette from '../../../styles/palette';
+import NavigationIcon from '../../../public/static/svg/register/navigation.svg';
+import Button from '../../common/Button';
+import Selector from '../../common/Selector';
+import { countryList } from '../../../lib/staticData';
+import Input from '../../common/Input';
+import { registerRoomActions } from '../../../store/registerRoom';
+import { useSelector } from '../../../store';
+import { getLocationInfoAPI } from '../../../lib/api/map';
 import RegisterRoomFooter from './RegisterRoomFooter';
 
 const Container = styled.div`
@@ -59,6 +59,8 @@ const Container = styled.div`
   }
 `;
 
+const disabledCountryOptions = ['국가/지역 선택'];
+
 const RegisterRoomLocation: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -73,28 +75,34 @@ const RegisterRoomLocation: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   // 나라 변경 시
-  const onChangeCountry = (event: React.ChangeEvent<HTMLSelectElement>) =>
+  const onChangeCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(registerRoomActions.setCountry(event.target.value));
+  };
 
   // 시/도 변경 시
-  const onChangeCity = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const onChangeCity = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(registerRoomActions.setCity(event.target.value));
+  };
 
   // 시/군/구 변경 시
-  const onChangeDistrict = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const onChangeDistrict = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(registerRoomActions.setDistrict(event.target.value));
+  };
 
   // 도로명주소 변경 시
-  const onChangeStreetAddress = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const onChangeStreetAdress = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(registerRoomActions.setStreetAddress(event.target.value));
+  };
 
   // 동호수 변경 시
-  const onChangeDetailAddress = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const onChangeDetailAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(registerRoomActions.setDetailAddress(event.target.value));
+  };
 
   // 우편번호 변경 시
-  const onChangePostcode = (event: React.ChangeEvent<HTMLInputElement>) =>
-    dispatch(registerRoomActions.setPostcode(event.target.value));
+  const onChangePostcode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(registerRoomActions.setPostcode(e.target.value));
+  };
 
   // 현재 위치 불러오기에 성공했을 때
   const onSuccessGetLocation = async ({ coords }: any) => {
@@ -110,15 +118,15 @@ const RegisterRoomLocation: React.FC = () => {
       dispatch(registerRoomActions.setPostcode(currentLocation.postcode));
       dispatch(registerRoomActions.setLatitude(currentLocation.latitude));
       dispatch(registerRoomActions.setLongitude(currentLocation.longitude));
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      alert(error?.message);
+      alert(error.message);
     }
     setLoading(false);
   };
 
   // 현재 위치 불러오기
-  const onClickGetCurrenctLocation = () => {
+  const onClickGetCurrentLocation = () => {
     setLoading(true);
     navigator.geolocation.getCurrentPosition(onSuccessGetLocation, (e) => {
       console.log(e);
@@ -136,8 +144,8 @@ const RegisterRoomLocation: React.FC = () => {
         <Button
           color="dark_cyan"
           colorReverse
-          icon={<NavigatorIcon />}
-          onClick={onClickGetCurrenctLocation}
+          icon={<NavigationIcon />}
+          onClick={onClickGetCurrentLocation}
         >
           {loading ? '불러오는 중...' : '현재 위치 사용'}
         </Button>
@@ -147,8 +155,9 @@ const RegisterRoomLocation: React.FC = () => {
           type="register"
           options={countryList}
           useValidation={false}
-          disabledOptions={['국가/지역 선택']}
-          value={country}
+          defaultValue="국가/지역 선택"
+          disabledOptions={disabledCountryOptions}
+          value={country || undefined}
           onChange={onChangeCountry}
         />
       </div>
@@ -157,14 +166,14 @@ const RegisterRoomLocation: React.FC = () => {
         <Input label="시/군/구" value={district} onChange={onChangeDistrict} />
       </div>
       <div className="register-room-location-street-address">
-        <Input label="도로명주소" value={streetAddress} onChange={onChangeStreetAddress} />
+        <Input label="도로명주소" value={streetAddress} onChange={onChangeStreetAdress} />
       </div>
       <div className="register-room-location-detail-address">
         <Input
           label="동호수(선택 사항)"
-          useValidation={false}
           value={detailAddress}
           onChange={onChangeDetailAddress}
+          useValidation={false}
         />
       </div>
       <div className="register-room-location-postcode">
