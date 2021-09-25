@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import OutsizeClickHandler from 'react-outside-click-handler';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { searchPlacesAPI } from '../../../lib/api/map';
+import { getPlaceAPI, searchPlacesAPI } from '../../../lib/api/map';
 import { useSelector } from '../../../store';
 import { searchRoomActions } from '../../../store/searchRoom';
 import palette from '../../../styles/palette';
@@ -135,6 +135,19 @@ const SearchRoomBarLocation: React.FC = () => {
     );
   };
 
+  // 검색된 장소 클릭 시
+  const onClickResult = async (placeId: string) => {
+    try {
+      const { data } = await getPlaceAPI(placeId);
+      setLocationDispatch(data.location);
+      setLatitudeDispatch(data.latitude);
+      setLongitudeDispatch(data.longitude);
+      setPopupOpend(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container onClick={onClickInput}>
       <OutsizeClickHandler onOutsideClick={() => setPopupOpend(false)}>
@@ -155,7 +168,11 @@ const SearchRoomBarLocation: React.FC = () => {
               </li>
             )}
             {!isEmpty(results) &&
-              results.map((result, index) => <li key={index}>{result.description}</li>)}
+              results.map((result, index) => (
+                <li role="presentation" key={index} onClick={() => onClickResult(result.placeId)}>
+                  {result.description}
+                </li>
+              ))}
             {location && isEmpty(results) && <li>검색 결과가 없습니다.</li>}
           </ul>
         )}
