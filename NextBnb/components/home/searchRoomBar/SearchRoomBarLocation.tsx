@@ -7,6 +7,7 @@ import { useSelector } from '../../../store';
 import { searchRoomActions } from '../../../store/searchRoom';
 import palette from '../../../styles/palette';
 import isEmpty from 'lodash/isEmpty';
+import useDebounce from '../../../hooks/useDebounce';
 
 const Container = styled.div`
   position: relative;
@@ -74,16 +75,20 @@ const SearchRoomBarLocation: React.FC = () => {
 
   const location = useSelector((state) => state.searchRoom.location);
   const [popupOpend, setPopupOpend] = useState(false);
-  // 검색 결과
-  const [results, setResults] = useState<{ description: string; placeId: string }[]>([]);
+  const [results, setResults] = useState<{ description: string; placeId: string }[]>([]); // 검색 결과
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const searchKeyword = useDebounce(location, 150);
 
   // 검색어가 변하면 장소를 검색
   useEffect(() => {
-    if (location) {
+    if (!searchKeyword) {
+      setResults([]);
+    }
+    if (searchKeyword) {
       searchPlaces();
     }
-  }, [location]);
+  }, [searchKeyword]);
 
   // 위치 변경하기
   const setLocationDispatch = (value: string) => {
