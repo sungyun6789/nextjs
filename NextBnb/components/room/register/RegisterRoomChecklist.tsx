@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from '../../../store';
+import RegisterRoomCheckStep from './RegisterRoomCheckStep';
 
 const Container = styled.div`
   padding: 62px 30px 100px;
@@ -150,7 +151,72 @@ const RegisterRoomChecklist: React.FC = () => {
         숙소를 등록한 후 언제든 숙소를 수정할 수 있습니다.
       </p>
       <ul>
-        <li>숙소 유형</li>
+        <RegisterRoomCheckStep
+          step="숙소 유형"
+          href="/room/register/building"
+          disabled={!isBuildingTypeActived}
+          inProgress={stepInProgress === 'building'}
+        />
+        <RegisterRoomCheckStep
+          step="숙소 종류"
+          href="/room/register/bedrooms"
+          disabled={!isRoomTypeActived}
+          inProgress={stepInProgress === 'bedrooms'}
+        />
+        <RegisterRoomCheckStep
+          step="욕실"
+          href="/room/register/bathroom"
+          disabled={!isBathroomActived}
+          inProgress={stepInProgress === 'bathroom'}
+        />
+        <RegisterRoomCheckStep
+          step="위치"
+          href="/room/register/location"
+          disabled={!isLocationActived}
+          inProgress={stepInProgress === 'location'}
+        />
+        <RegisterRoomCheckStep
+          step="편의 시설"
+          href="/room/register/amentities"
+          disabled={!isAmentitiesActived}
+          inProgress={stepInProgress === 'amentities'}
+        />
+        <RegisterRoomCheckStep
+          step="공용공간"
+          href="/room/register/conviniences"
+          disabled={!isConviniencesActived}
+          inProgress={stepInProgress === 'conviniences'}
+        />
+        <RegisterRoomCheckStep
+          step="사진"
+          href="/room/register/photo"
+          disabled={!isPhotoActived}
+          inProgress={stepInProgress === 'photo'}
+        />
+        <RegisterRoomCheckStep
+          step="설명"
+          href="/room/register/description"
+          disabled={!isDescriptionActived}
+          inProgress={stepInProgress === 'description'}
+        />
+        <RegisterRoomCheckStep
+          step="제목"
+          href="/room/register/title"
+          disabled={!isTitleActived}
+          inProgress={stepInProgress === 'title'}
+        />
+        <RegisterRoomCheckStep
+          step="요금"
+          href="/room/register/price"
+          disabled={!isPriceActived}
+          inProgress={stepInProgress === 'price'}
+        />
+        <RegisterRoomCheckStep
+          step="예약 날짜"
+          href="/room/register/date"
+          disabled={!isDateActived}
+          inProgress={stepInProgress === 'date'}
+        />
       </ul>
     </Container>
   );
