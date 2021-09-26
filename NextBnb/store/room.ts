@@ -5,6 +5,7 @@ import { RoomType } from '../types/room';
 // 초기 상태
 const initialState: RoomState = {
   rooms: [],
+  detail: null,
 };
 
 const room = createSlice({
@@ -14,6 +15,9 @@ const room = createSlice({
     setRooms(state, action: PayloadAction<RoomType[]>) {
       state.rooms = action.payload;
       return state;
+    },
+    setDetailRoom(state, action: PayloadAction<RoomType>) {
+      state.detail = action.payload;
     },
   },
 });
