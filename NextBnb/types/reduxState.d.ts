@@ -1,5 +1,5 @@
 import { UserType } from './user';
-import { RoomType } from '../../types/room';
+import { RoomType } from './room';
 
 // 유저 redux state
 export type UserState = UserType & {
