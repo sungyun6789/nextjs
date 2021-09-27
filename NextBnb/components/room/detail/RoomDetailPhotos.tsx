@@ -89,6 +89,22 @@ const RoomDetailPhotos: React.FC = () => {
           <div className="room-detail-three-photos-second">
             <img src={photos[1]} alt={roomTitle} />
             <img src={photos[2]} alt={roomTitle} />
+          </div>
+        </div>
+      </Container>
+    );
+  }
+
+  if (photos.length > 4) {
+    return (
+      <Container>
+        <div className="room-detail-photos-wrapper">
+          <div className="room-detail-five-photos-first">
+            <img src={photos[0]} alt={roomTitle} />
+          </div>
+          <div className="room-detail-five-photos-second">
+            <img src={photos[1]} alt={roomTitle} />
+            <img src={photos[2]} alt={roomTitle} />
             <img src={photos[3]} alt={roomTitle} />
             <img src={photos[4]} alt={roomTitle} />
           </div>
@@ -96,7 +112,7 @@ const RoomDetailPhotos: React.FC = () => {
       </Container>
     );
   }
-  return <></>;
+  return <Container>Hello world</Container>;
 };
 
 export default RoomDetailPhotos;
