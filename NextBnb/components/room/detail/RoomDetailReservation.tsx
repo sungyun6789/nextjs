@@ -15,6 +15,7 @@ const Container = styled.div`
   height: fit-content;
   background-color: white;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
 
   .room-detail-reservation-info {
     font-size: 22px;
@@ -147,6 +148,7 @@ const Container = styled.div`
 
 const RoomDetailReservation: React.FC = () => {
   const room = useSelector((state) => state.room.detail);
+  const price = useSelector((state) => state.room.detail?.price);
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -264,6 +266,18 @@ const RoomDetailReservation: React.FC = () => {
       <Button color="amaranth" width="100%" onClick={onClickReservationButton}>
         {startDate && endDate ? '예약하기' : '예약 가능 여부 보기'}
       </Button>
+      {startDate && endDate && (
+        <>
+          <p className="room-detail-reservation-price-date">
+            {price} X {endDate.getDay() - startDate.getDay()}박
+            <span>{Number(price) * (endDate.getDay() - startDate.getDay())}</span>
+          </p>
+          <p className="room-detail-reservation-total-price">
+            총 합계
+            <span>{Number(price) * (endDate.getDay() - startDate.getDay())}</span>
+          </p>
+        </>
+      )}
     </Container>
   );
 };
