@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from '../../common/DatePicker';
 import palette from '../../../styles/palette';
 import Button from '../../common/Button';
 import { useSelector } from '../../../store';
+import OutsideClickHandler from 'react-outside-click-handler';
+import Counter from '../../common/Counter';
 
 const Container = styled.div`
   position: relative;
@@ -146,6 +148,32 @@ const Container = styled.div`
 const RoomDetailReservation: React.FC = () => {
   const room = useSelector((state) => state.room.detail);
 
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  const [adultCount, setAdultCount] = useState(1);
+  const [childrenCount, setChildrenCount] = useState(0);
+  const [infantsCount, setInfantsCount] = useState(0);
+
+  const [guestCountPopupOpened, setGuestCountPopupOpened] = useState(false);
+
+  const checkInRef = useRef<HTMLLabelElement>(null);
+  const checkOutRef = useRef<HTMLLabelElement>(null);
+
+  // 예약하기 클릭 시
+  const onClickReservationButton = async () => {
+    if (checkInRef.current && !startDate) {
+      checkInRef.current.focus();
+    } else if (checkOutRef.current && !endDate) {
+      checkOutRef.current.focus();
+    }
+  };
+
+  const getGuestCountText = useMemo(
+    () => `게스트 ${adultCount + childrenCount}명${infantsCount ? `, 유아 ${infantsCount}명` : ''}`,
+    [adultCount, childrenCount, infantsCount],
+  );
+
   if (!room) {
     return null;
   }
@@ -156,37 +184,85 @@ const RoomDetailReservation: React.FC = () => {
       <div className="room-detail-reservation-inputs">
         <div className="room-detail-reservation-date-inputs">
           <div className="room-detail-reservation-check-in">
-            <label>
+            <label ref={checkInRef}>
               체크인
               <DatePicker
                 placeholderText="날짜 추가"
                 popperPlacement="top-end"
-                disabledKeyboardNavigation
-                onChange={() => {}}
+                selected={startDate}
+                onChange={(date) => setStartDate(date as Date)}
+                openToDate={new Date()}
+                selectsStart
+                startDate={startDate as Date}
+                endDate={new Date(endDate as Date)}
+                minDate={new Date(room.startDate)}
+                maxDate={new Date(room.endDate)}
               />
             </label>
           </div>
           <div className="room-detail-reservation-check-out">
-            <label>
+            <label ref={checkOutRef}>
               체크아웃
               <DatePicker
                 placeholderText="날짜 추가"
                 popperPlacement="top-end"
-                disabledKeyboardNavigation
-                onChange={() => {}}
+                selected={endDate}
+                onChange={(date) => setEndDate(date as Date)}
+                selectsEnd
+                openToDate={new Date()}
+                startDate={startDate as Date}
+                endDate={new Date(endDate as Date)}
+                minDate={new Date(startDate as Date)}
+                maxDate={new Date(room.endDate)}
               />
             </label>
           </div>
         </div>
         <div className="room-detail-reservation-guests-count-wrapper">
-          <div className="room-detail-reservation-guests-count">
-            <span>인원</span>
-            <p>게스트 1명</p>
-          </div>
+          <OutsideClickHandler onOutsideClick={() => setGuestCountPopupOpened(false)}>
+            <div
+              role="presentation"
+              className="room-detail-reservation-guests-count"
+              onClick={() => setGuestCountPopupOpened(!guestCountPopupOpened)}
+            >
+              <span>인원</span>
+              <p>{getGuestCountText}</p>
+            </div>
+            {guestCountPopupOpened && (
+              <div className="room-detail-reservation-guests-popup">
+                <div className="mb-24">
+                  <Counter
+                    label="성인"
+                    description="만 13세 이상"
+                    minValue={1}
+                    value={adultCount}
+                    onChange={(count) => setAdultCount(count)}
+                  />
+                </div>
+                <div className="mb-24">
+                  <Counter
+                    label="어린이"
+                    description="2~12세"
+                    value={childrenCount}
+                    onChange={(count) => setChildrenCount(count)}
+                  />
+                </div>
+                <Counter
+                  label="유아"
+                  description="2세 미만"
+                  value={infantsCount}
+                  onChange={(count) => setInfantsCount(count)}
+                />
+                <p className="room-detail-reservation-guests-info">
+                  최대 {room.maximumGuestCount}명. 유아는 숙박인원에 포함되지 않습니다.
+                </p>
+              </div>
+            )}
+          </OutsideClickHandler>
         </div>
       </div>
-      <Button color="amaranth" width="100%" onClick={() => {}}>
-        예약하기
+      <Button color="amaranth" width="100%" onClick={onClickReservationButton}>
+        {startDate && endDate ? '예약하기' : '예약 가능 여부 보기'}
       </Button>
     </Container>
   );
