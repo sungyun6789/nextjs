@@ -8,6 +8,8 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import Counter from '../../common/Counter';
 import useModal from '../../../hooks/useModal';
 import AuthModal from '../../auths/AuthModal';
+import { makeReservationAPI } from '../../../lib/api/reservation';
+import { useRouter } from 'next/router';
 
 const Container = styled.div`
   position: relative;
@@ -167,12 +169,33 @@ const RoomDetailReservation: React.FC = () => {
   const checkInRef = useRef<HTMLLabelElement>(null);
   const checkOutRef = useRef<HTMLLabelElement>(null);
 
+  const router = useRouter();
+
   // 예약하기 클릭 시
   const onClickReservationButton = async () => {
-    if (checkInRef.current && !startDate) {
+    if (!userId) {
+      openModal();
+    } else if (checkInRef.current && !startDate) {
       checkInRef.current.focus();
     } else if (checkOutRef.current && !endDate) {
       checkOutRef.current.focus();
+    } else {
+      try {
+        const body = {
+          roomId: room?.id,
+          userId,
+          checkInDate: startDate!.toISOString(),
+          checkOutDate: endDate!.toISOString(),
+          adultCount,
+          childrenCount,
+          infantsCount,
+        };
+        await makeReservationAPI(body);
+        alert('숙소 등록을 완료했습니다.');
+        router.push('/');
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
