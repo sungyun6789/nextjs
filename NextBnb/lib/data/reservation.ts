@@ -29,4 +29,4 @@ const write = (reservations: StoredReservation[]) => {
   writeFileSync('data/reservations.json', JSON.stringify(reservations));
 };
 
-export default { exist, find, write };
+export default { getList, exist, find, write };
