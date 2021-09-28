@@ -10,5 +10,17 @@
     "infantsCount": 1,
     "createdAt": "2020-12-07T10:32:03.864Z",
     "updatedAt": "2020-12-07T10:32:03.864Z"
+  },
+  {
+    "id": 2,
+    "roomId": 1,
+    "userId": 2,
+    "checkInDate": "2021-09-23T00:00:00.000Z",
+    "checkOutDate": "2021-09-24T00:00:00.000Z",
+    "adultCount": 2,
+    "childrenCount": 0,
+    "infantsCount": 0,
+    "createdAt": "2021-09-28T09:35:36.505Z",
+    "updatedAt": "2021-09-28T09:35:36.505Z"
   }
 ]
