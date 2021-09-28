@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import DatePicker from '../../common/DatePicker';
 import palette from '../../../styles/palette';
+import Button from '../../common/Button';
+import { useSelector } from '../../../store';
 
 const Container = styled.div`
   position: relative;
@@ -20,6 +23,7 @@ const Container = styled.div`
     width: 100%;
     margin-bottom: 16px;
     border: 1px solid ${palette.gray_71};
+    border-radius: 8px;
 
     .room-detail-reservation-date-inputs {
       position: relative;
@@ -34,7 +38,7 @@ const Container = styled.div`
         height: 100%;
         top: 0;
         left: 0;
-        border-radius: 8px 0 0;
+        border-radius: 8px 0 0 0;
         label {
           display: block;
           width: 100%;
@@ -139,8 +143,53 @@ const Container = styled.div`
   }
 `;
 
-const RoomDetailReservation = () => {
-  return <div></div>;
+const RoomDetailReservation: React.FC = () => {
+  const room = useSelector((state) => state.room.detail);
+
+  if (!room) {
+    return null;
+  }
+
+  return (
+    <Container>
+      <p className="room-detail-reservation-info">요금을 확인하려면 날짜를 확인하세요.</p>
+      <div className="room-detail-reservation-inputs">
+        <div className="room-detail-reservation-date-inputs">
+          <div className="room-detail-reservation-check-in">
+            <label>
+              체크인
+              <DatePicker
+                placeholderText="날짜 추가"
+                popperPlacement="top-end"
+                disabledKeyboardNavigation
+                onChange={() => {}}
+              />
+            </label>
+          </div>
+          <div className="room-detail-reservation-check-out">
+            <label>
+              체크아웃
+              <DatePicker
+                placeholderText="날짜 추가"
+                popperPlacement="top-end"
+                disabledKeyboardNavigation
+                onChange={() => {}}
+              />
+            </label>
+          </div>
+        </div>
+        <div className="room-detail-reservation-guests-count-wrapper">
+          <div className="room-detail-reservation-guests-count">
+            <span>인원</span>
+            <p>게스트 1명</p>
+          </div>
+        </div>
+      </div>
+      <Button color="amaranth" width="100%" onClick={() => {}}>
+        예약하기
+      </Button>
+    </Container>
+  );
 };
 
 export default RoomDetailReservation;
