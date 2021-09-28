@@ -53,46 +53,46 @@ const Container = styled.div`
       white-space: break-spaces; // 연속 공백이 줄의 끝에 위치하더라도 공간을 차지, 공백의 중간과 끝에서도 자동으로 줄바꿈
       word-break: keep-all; // 텍스트가 컨텐츠밖으로 오버플로 할 때 줄바꿈 할 지 설정 keep-all은 줄을 바꾸지 않음
     }
-    .room-detail-bed-type-label {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-    .room-detail-bed-type-list {
-      display: flex;
-      .room-detail-bedroom-card {
-        padding: 26px 24px;
-        width: 204px;
-        margin-right: 16px;
-        border: 1px solid ${palette.gray_dd};
-        border-radius: 12px;
-        svg {
-          margin-bottom: 20px;
-        }
-        .room-detail-bed-card-number {
-          font-size: 16px;
-          font-weight: 600;
-          margin-bottom: 12px;
-        }
+  }
+  .room-detail-bed-type-label {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .room-detail-bed-type-list {
+    display: flex;
+    .room-detail-bedroom-card {
+      padding: 26px 24px;
+      width: 204px;
+      margin-right: 16px;
+      border: 1px solid ${palette.gray_dd};
+      border-radius: 12px;
+      svg {
+        margin-bottom: 20px;
+      }
+      .room-detail-bed-card-number {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
       }
     }
-    .room-detail-conveniences-label {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-    .room-detail-conveniences-list {
-      width: 100%;
+  }
+  .room-detail-conveniences-label {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .room-detail-conveniences-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    li {
       display: flex;
-      flex-wrap: wrap;
-      li {
-        display: flex;
-        align-items: center;
-        width: 50%;
-        margin-bottom: 16px;
-        svg {
-          margin-right: 16px;
-        }
+      align-items: center;
+      width: 50%;
+      margin-bottom: 16px;
+      img {
+        margin-right: 16px;
       }
     }
   }
@@ -139,11 +139,11 @@ const RoomDetail: React.FC = () => {
       <section className="room-detail-contents">
         <div className="room-detail-infos">
           <p className="room-detail-room-type">
-            {room.host.lastname}님이 호스팅하는 {getTranslatedRoomType()}
+            {room.host.lastname}님의 호스팅하는 {getTranslatedRoomType()}
           </p>
           <p className="room-detail-space-counts">
-            인원 {room.maximumGuestCount}명 . 침실 {room.bedroomCount}개 . 침대 {room.bedCount}개 .
-            욕실 {room.bathroomCount}개
+            인원 {room.maximumGuestCount}명 · 침실 {room.bedroomCount}개 · 침대
+            {room.bedCount}개 · 욕실 {room.bathroomCount}개
           </p>
           <div className="room-detail-divider" />
           <p className="room-detail-description">{room.description}</p>
@@ -156,6 +156,7 @@ const RoomDetail: React.FC = () => {
                   <li className="room-detail-bedroom-card" key={bedroom.id}>
                     <BedIcon />
                     <p className="room-detail-bed-card-number">{bedroom.id}번 침실</p>
+                    <p>{getBedTypesText(bedroom.beds)}</p>
                   </li>
                 ))}
                 {room.publicBedList.map((bedroom, index) => (
@@ -166,9 +167,10 @@ const RoomDetail: React.FC = () => {
                   </li>
                 ))}
               </ul>
+              <div className="room-detail-divider" />
             </>
           )}
-          {!isEmpty(room.conveniences) && (
+          {!isEmpty(room.amentities) && (
             <>
               <p className="room-detail-conveniences-label">편의시설</p>
               <ul className="room-detail-conveniences-list">

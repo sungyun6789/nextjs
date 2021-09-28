@@ -32,11 +32,6 @@ const Container = styled.form`
   .input-wrapper {
     position: relative;
     margin-bottom: 16px;
-    svg {
-      position: absolute;
-      right: 11px;
-      top: 16px;
-    }
   }
   .sign-up-password-input-wrapper {
     svg {
@@ -334,7 +329,9 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
         </div>
       </div>
       <div className="sign-up-modal-submit-button-wrapper">
-        <Button type="submit">가입 하기</Button>
+        <Button type="submit" color="bittersweet">
+          가입 하기
+        </Button>
       </div>
       <p>
         이미 에어비앤비 계정이 있나요?

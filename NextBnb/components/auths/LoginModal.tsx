@@ -15,7 +15,7 @@ import { userActions } from '../../store/user';
 
 const Container = styled.form`
   width: 568px;
-  padding: 12px;
+  padding: 32px;
   background-color: white;
   z-index: 11;
 
@@ -97,7 +97,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
         const { data } = await loginAPI(loginBody);
         dispatch(userActions.setLoggedUser(data));
         closeModal();
-      } catch (error) {
+      } catch (error: any) {
         console.log(error.response);
       }
     }
@@ -121,6 +121,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
       <div className="login-input-wrapper login-password-input-wrapper">
         <Input
           placeholder="비밀번호 설정하기"
+          name="password"
           icon={
             isPasswordHided ? (
               <ClosedEyeIcon onClick={togglePasswordHiding} />
@@ -136,7 +137,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
         />
       </div>
       <div className="login-modal-submit-button-wrapper">
-        <Button type="submit" role="presentation">
+        <Button type="submit" color="bittersweet">
           로그인
         </Button>
       </div>
