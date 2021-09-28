@@ -6,6 +6,8 @@ import Button from '../../common/Button';
 import { useSelector } from '../../../store';
 import OutsideClickHandler from 'react-outside-click-handler';
 import Counter from '../../common/Counter';
+import useModal from '../../../hooks/useModal';
+import AuthModal from '../../auths/AuthModal';
 
 const Container = styled.div`
   position: relative;
@@ -149,6 +151,9 @@ const Container = styled.div`
 const RoomDetailReservation: React.FC = () => {
   const room = useSelector((state) => state.room.detail);
   const price = useSelector((state) => state.room.detail?.price);
+  const userId = useSelector((state) => state.user.id);
+
+  const { openModal, ModalPortal, closeModal } = useModal();
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -175,6 +180,12 @@ const RoomDetailReservation: React.FC = () => {
     () => `게스트 ${adultCount + childrenCount}명${infantsCount ? `, 유아 ${infantsCount}명` : ''}`,
     [adultCount, childrenCount, infantsCount],
   );
+
+  const onClickReservation = async () => {
+    if (!userId) {
+      openModal();
+    }
+  };
 
   if (!room) {
     return null;
@@ -278,6 +289,9 @@ const RoomDetailReservation: React.FC = () => {
           </p>
         </>
       )}
+      <ModalPortal>
+        <AuthModal closeModal={closeModal} />
+      </ModalPortal>
     </Container>
   );
 };
