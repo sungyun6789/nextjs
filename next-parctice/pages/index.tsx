@@ -24,7 +24,7 @@ export default Home;
 
 // 서버에서 데이터가 변경되면 같이 업데이트 됨
 // export const getServerSideProps = async () => {
-//   const res = await fetch(`http://localhost:8080/api/posts`);
+//   const res = await fetch(`http://jsonplaceholder.typicode.com/posts?_start=0&_end=10`);
 //   const posts = await res.json();
 
 //   return {
@@ -40,7 +40,9 @@ export default Home;
 빌드할 때 페이지 업데이트
 */
 export const getStaticProps = async () => {
-  const res = await fetch(`http://localhost:8080/api/posts`);
+  const res = await fetch(
+    `http://jsonplaceholder.typicode.com/posts?_start=0&_end=10`
+  );
   const posts = await res.json();
 
   return {
